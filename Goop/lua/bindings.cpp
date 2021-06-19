@@ -382,7 +382,7 @@ int l_dump(lua_State* L)
 
 	try
 	{	
-		fs::path dumpPath(fs::path("persistance") / (std::string(s) + ".lpr"));
+		fs::path dumpPath(fs::path("persistence") / (std::string(s) + ".lpr"));
 		fs::create_directories( dumpPath.branch_path() );
 		fs::ofstream f(dumpPath, std::ios::binary);
 		
@@ -420,7 +420,7 @@ int l_undump(lua_State* L)
 	
 	try
 	{
-		fs::path dumpPath(fs::path("persistance") / (std::string(s) + ".lpr"));
+		fs::path dumpPath(fs::path("persistence") / (std::string(s) + ".lpr"));
 	
 		fs::ifstream f(dumpPath, std::ios::binary);
 		
