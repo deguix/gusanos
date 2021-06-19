@@ -4,6 +4,7 @@
 //#include "base_object.h"
 #include <list>
 #include <vector>
+#include <cstddef>
 
 static const int RENDER_LAYERS_AMMOUNT = 10;
 static const int COLLISION_LAYERS_AMMOUNT = 10;

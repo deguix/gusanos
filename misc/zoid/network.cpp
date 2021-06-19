@@ -119,10 +119,10 @@ void Server::ZCom_cbConnectionSpawned( ZCom_ConnID _id )
 }
 
 // called when a connection closed
-void Server::ZCom_cbConnectionClosed( ZCom_ConnID _id, ZCom_BitStream &_reason )
+void Server::ZCom_cbConnectionClosed( ZCom_ConnID _id, eZCom_CloseReason _reason, ZCom_BitStream &_reasondata )
 {
   int i;
-	const char * reason = _reason.getStringStatic();
+	const char * reason = _reasondata.getStringStatic();
   con->log.create_msg("A PLAYER DISCONNECTED");
   for (i=0;i<player_count;i++)
   {
@@ -229,7 +229,7 @@ void Client::ZCom_cbConnectResult( ZCom_ConnID _id, eZCom_ConnectResult _result,
 	};
 } 
 
-void Client::ZCom_cbConnectionClosed( ZCom_ConnID _id, ZCom_BitStream &_reason )
+void Client::ZCom_cbConnectionClosed( ZCom_ConnID _id, eZCom_CloseReason _reason, ZCom_BitStream &_reasondata  )
 {
 	//sys_print( "Client: Connection with ID: %d has been closed, reason is: '%s'.", _id, _reason.getStringStatic() );
   con->log.create_msg("YOU WERE DISCONNECTED FROM SERVER");
@@ -249,9 +249,15 @@ void Client::ZCom_cbZoidResult(ZCom_ConnID _id, eZCom_ZoidResult _result, zU8 _n
 	//sys_print("Client: Zoidlevel [%d] entered", _new_level);
 }
 
-
-void Client::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID _id, ZCom_ClassID _requested_class, eZCom_NodeRole _role, ZCom_NodeID _net_id)
+void Client::ZCom_cbNodeRequest_Dynamic(ZCom_ConnID _id, ZCom_ClassID _requested_class, ZCom_BitStream *_announcedata, eZCom_NodeRole _role, ZCom_NodeID _net_id)
 {
+	// New parameter:
+	//	_announcedata 	Data that was set by the server with ZCom_Node::setAnnounceData().
+	//May be NULL. If non NULL, the callback must advance the stream's read position by the exact size of the data given to setAnnounceData(). 
+	//only particles define this, but so far this goes unused here, so just "advance the stream's read position" for now.
+	if (_requested_class == Particle::classID && _announcedata != NULL)
+		_announcedata->getInt();
+	
   char tmpstr[255];
 	// check the requested class
 	if (_requested_class == player_classid)

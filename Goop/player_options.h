@@ -36,7 +36,7 @@ struct PlayerOptions
 	unsigned int team;
 	
 	std::string setColour(std::list<std::string> const& args);
-	std::string PlayerOptions::setTeam(std::list<std::string> const& args);
+	std::string setTeam(std::list<std::string> const& args);
 	
 	void clearChangeFlags();
 	

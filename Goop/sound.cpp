@@ -15,26 +15,44 @@ namespace fs = boost::filesystem;
 #include <allegro.h>
 //#include "text.h"
 
-#include <fmod.h>
+#include <fmod.hpp>
+#include <fmod_errors.h>
 
 using namespace std;
+
+//		console.addLogMsg(string("* FMOD ERROR ") + FMOD_ErrorString(fmod_result));
+
+#define FMOD_ERROR_CHECK \
+	if (sfx.fmod_result != FMOD_OK) { \
+		cerr << "* FMOD ERROR " << FMOD_ErrorString(sfx.fmod_result) << endl; \
+		return; \
+	}
+#define FMOD_ERROR_CHECK_WITH_BOOLEAN \
+	if (sfx.fmod_result != FMOD_OK) { \
+		cerr << "* FMOD ERROR " << FMOD_ErrorString(sfx.fmod_result) << endl; \
+		return false; \
+	}
 
 ResourceList<Sound> soundList;
 
 Sound::Sound()
 {
-	m_sound = NULL;
+	m_sound = nullptr;
 }
 
 Sound::~Sound()
 {
-	if ( m_sound )  FSOUND_Sample_Free( m_sound );
+	if (m_sound) {
+		sfx.fmod_result = m_sound->release();
+		FMOD_ERROR_CHECK;
+	}
 }
 
 bool Sound::load(fs::path const& filename)
 {	
-	//cerr << "Loading sound: " << filename.native_file_string() << endl;
-	m_sound = FSOUND_Sample_Load( FSOUND_FREE, filename.native_file_string().c_str(), FSOUND_HW3D | FSOUND_FORCEMONO, 0, 0 );
+	//cerr << "Loading sound: " << filename.native() << endl;
+	sfx.fmod_result = sfx.m_fmod_system->createSound(filename.native().c_str(), FMOD_3D | FMOD_HARDWARE, 0, &m_sound); //FSOUND_FORCEMONO
+	FMOD_ERROR_CHECK_WITH_BOOLEAN;
 	if ( m_sound )
 	{
 		return true;
@@ -46,18 +64,28 @@ void Sound::play(float volume,float pitch, float volumeVariation, float pitchVar
 {
 	if( m_sound ) 
 	{
-		int chan = FSOUND_PlaySoundEx(FSOUND_FREE, m_sound, 0, 1);
-		if ( chan != -1 )
-		{
-			float rndPitch = pitch + rnd()*pitchVariation - pitchVariation / 2;
-			FSOUND_SetFrequency(chan, static_cast<int>(FSOUND_GetFrequency(chan) * rndPitch) );
+		FMOD::Channel* fmod_channel;
+		sfx.fmod_result = sfx.m_fmod_system->playSound(FMOD_CHANNEL_FREE, m_sound, true, &fmod_channel);
+		FMOD_ERROR_CHECK else {
+			float rndPitch = pitch + midrnd()*pitchVariation - pitchVariation / 2;
 			
-			float rndVolume = pitch + rnd()*volumeVariation - volumeVariation / 2;
-			FSOUND_SetVolume(chan, static_cast<int>(FSOUND_GetVolume(chan)*rndVolume) );
+			float frequency = 1.0;
+			sfx.fmod_result = fmod_channel->getFrequency(&frequency);
+			FMOD_ERROR_CHECK
+			sfx.fmod_result = fmod_channel->setFrequency(frequency * rndPitch);
+			FMOD_ERROR_CHECK
 			
-			FSOUND_SetLoopMode( chan, FSOUND_LOOP_OFF );
-			
-			FSOUND_SetPaused(chan, 0);
+			float rndVolume = volume + midrnd()*volumeVariation - volumeVariation / 2;
+			float volume = 1.0;
+			sfx.fmod_result = fmod_channel->getVolume(&volume);
+			FMOD_ERROR_CHECK
+			sfx.fmod_result = fmod_channel->setVolume(volume * rndVolume);
+			FMOD_ERROR_CHECK
+				
+			sfx.fmod_result = fmod_channel->setLoopCount(0);
+			FMOD_ERROR_CHECK
+			sfx.fmod_result = fmod_channel->setPaused(false);
+			FMOD_ERROR_CHECK
 		}
 	}
 }
@@ -66,47 +94,34 @@ void Sound::play2D(const Vec& pos, float loudness, float pitch, float pitchVaria
 {
 	if( m_sound ) 
 	{
-		int chan = FSOUND_PlaySoundEx(FSOUND_FREE, m_sound, NULL, 1);
-		if ( chan != -1 )
-		{
-			float _pos[3] = { pos.x, pos.y, 0 };
-			FSOUND_3D_SetAttributes(chan, _pos, NULL);
+		FMOD::Channel* fmod_channel;
+		sfx.fmod_result = sfx.m_fmod_system->playSound(FMOD_CHANNEL_FREE, m_sound, true, &fmod_channel);
+		FMOD_ERROR_CHECK else {
+			FMOD_VECTOR _pos[3] = { pos.x, pos.y, 0 };
+			sfx.fmod_result = fmod_channel->set3DAttributes(_pos, NULL);
+			FMOD_ERROR_CHECK
 			
-			float rndPitch = pitch + rnd()*pitchVariation - pitchVariation / 2;
-			FSOUND_SetFrequency(chan, static_cast<int>(FSOUND_GetFrequency(chan) * rndPitch) );
+			float rndPitch = pitch + midrnd()*pitchVariation - pitchVariation / 2;
+			float frequency = 1.0;
+			sfx.fmod_result = fmod_channel->getFrequency(&frequency);
+			FMOD_ERROR_CHECK
+			sfx.fmod_result = fmod_channel->setFrequency(frequency * rndPitch);
+			FMOD_ERROR_CHECK
 			
-			FSOUND_3D_SetMinMaxDistance(chan, loudness, 10000.0f);
+			sfx.fmod_result = fmod_channel->set3DMinMaxDistance(loudness, 10000.0f);
+			FMOD_ERROR_CHECK
 			
-			FSOUND_SetLoopMode( chan, FSOUND_LOOP_OFF );
-			
-			FSOUND_SetPaused(chan, 0);
+			sfx.fmod_result = fmod_channel->setLoopCount(0);
+			FMOD_ERROR_CHECK
+			sfx.fmod_result = fmod_channel->setPaused(false);
+			FMOD_ERROR_CHECK
 		}
 	}
 }
 
 void Sound::play2D(BaseObject* obj, float loudness, float pitch, float pitchVariation)
 {
-	if( m_sound ) 
-	{
-		int chan = FSOUND_PlaySoundEx(FSOUND_FREE, m_sound, NULL, 1);
-		if ( chan != -1 )
-		{
-			float pos[3] = { obj->pos.x, obj->pos.y, 0 };
-
-			FSOUND_3D_SetAttributes(chan, pos, NULL);
-			
-			sfx.setChanObject( chan, obj );
-			
-			float rndPitch = pitch + rnd()*pitchVariation - pitchVariation / 2;
-			FSOUND_SetFrequency(chan, static_cast<int>(FSOUND_GetFrequency(chan) * rndPitch) );
-			
-			FSOUND_3D_SetMinMaxDistance(chan, loudness, 10000.0f);
-			
-			FSOUND_SetLoopMode( chan, FSOUND_LOOP_OFF );
-			
-			FSOUND_SetPaused(chan, 0);
-		}
-	}
+	play2D(obj->pos, loudness, pitch, pitchVariation);
 }
 
 #endif

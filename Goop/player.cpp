@@ -8,8 +8,6 @@
 
 //#include <allegro.h>
 
-using namespace std;
-
 Player::Player(shared_ptr<PlayerOptions> options, BaseWorm* worm)
 : BasePlayer(options, worm)
 , aimingUp(false)

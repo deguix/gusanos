@@ -14,26 +14,42 @@ namespace fs = boost::filesystem;
 #include <allegro.h>
 //#include "text.h"
 
-#include <fmod.h>
+#include <fmod.hpp>
 
 using namespace std;
+
+#define FMOD_ERROR_CHECK \
+	if (sfx.fmod_result != FMOD_OK) { \
+		cerr << "* FMOD ERROR " << FMOD_ErrorString(sfx.fmod_result) << endl; \
+		return; \
+	}
+#define FMOD_ERROR_CHECK_WITH_BOOLEAN \
+	if (sfx.fmod_result != FMOD_OK) { \
+		cerr << "* FMOD ERROR " << FMOD_ErrorString(sfx.fmod_result) << endl; \
+		return false; \
+	}
 
 ResourceList<Sound1D> sound1DList;
 
 Sound1D::Sound1D()
 {
-	m_sound = NULL;
+	m_sound = nullptr;
 }
 
 Sound1D::~Sound1D()
 {
-	if ( m_sound )  FSOUND_Sample_Free( m_sound );
+	if (m_sound) {
+		sfx.fmod_result = m_sound->release();
+		FMOD_ERROR_CHECK;
+	}
 }
 
 bool Sound1D::load(fs::path const& filename)
 {	
-	//cerr << "Loading sound: " << filename.native_file_string() << endl;
-	m_sound = FSOUND_Sample_Load( FSOUND_FREE, filename.native_file_string().c_str(), FSOUND_2D | FSOUND_FORCEMONO, 0, 0 );
+	//cerr << "Loading sound: " << filename.native() << endl;
+	
+	sfx.fmod_result = sfx.m_fmod_system->createSound(filename.native().c_str(), FMOD_2D | FMOD_LOWMEM, 0, &m_sound); //FSOUND_FORCEMONO
+	FMOD_ERROR_CHECK_WITH_BOOLEAN;
 	if ( m_sound )
 	{
 		return true;
@@ -45,18 +61,28 @@ void Sound1D::play(float volume,float pitch, float volumeVariation, float pitchV
 {
 	if( m_sound ) 
 	{
-		int chan = FSOUND_PlaySoundEx(FSOUND_FREE, m_sound, 0, 1);
-		if ( chan != -1 )
-		{
+		FMOD::Channel* fmod_channel = nullptr;
+		sfx.fmod_result = sfx.m_fmod_system->playSound(FMOD_CHANNEL_FREE, m_sound, true, &fmod_channel);
+		FMOD_ERROR_CHECK else {
 			float rndPitch = pitch + midrnd()*pitchVariation;
-			FSOUND_SetFrequency(chan, static_cast<int>(FSOUND_GetFrequency(chan) * rndPitch) );
+			
+			float frequency = 1.0;
+			sfx.fmod_result = fmod_channel->getFrequency(&frequency);
+			FMOD_ERROR_CHECK
+			sfx.fmod_result = fmod_channel->setFrequency(frequency * rndPitch);
+			FMOD_ERROR_CHECK
 			
 			float rndVolume = volume + midrnd()*volumeVariation;
-			FSOUND_SetVolume(chan, static_cast<int>(FSOUND_GetVolume(chan)*rndVolume) );
-			
-			FSOUND_SetLoopMode( chan, FSOUND_LOOP_OFF );
-			
-			FSOUND_SetPaused(chan, 0);
+			float volume = 1.0;
+			sfx.fmod_result = fmod_channel->getVolume(&volume);
+			FMOD_ERROR_CHECK
+			sfx.fmod_result = fmod_channel->setVolume(volume * rndVolume);
+			FMOD_ERROR_CHECK
+				
+			sfx.fmod_result = fmod_channel->setLoopCount(0);
+			FMOD_ERROR_CHECK
+			sfx.fmod_result = fmod_channel->setPaused(false);
+			FMOD_ERROR_CHECK
 		}
 	}
 }

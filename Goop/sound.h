@@ -12,8 +12,9 @@
 #include <boost/filesystem/path.hpp>
 namespace fs = boost::filesystem;
 
+#include <fmod.hpp>
+
 class BaseObject;
-struct FSOUND_SAMPLE;
 
 class Sound : public LuaObject
 {
@@ -29,8 +30,7 @@ class Sound : public LuaObject
 	
 	private:
 	
-	FSOUND_SAMPLE * m_sound;
-	
+	FMOD::Sound * m_sound;
 };
 
 extern ResourceList<Sound> soundList;

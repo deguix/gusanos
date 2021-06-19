@@ -1,0 +1,13 @@
+# output
+gusanos
+gusanos.exe
+
+# C++
+*.o
+*.a
+*.obj
+*.lib
+
+# VIM
+.*.sw?
+.sw?

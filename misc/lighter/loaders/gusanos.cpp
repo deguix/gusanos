@@ -17,7 +17,7 @@ bool GusanosLevelLoader::canLoad(fs::path const& path, std::string& name)
 {
 	if(fs::exists(path / "config.cfg"))
 	{
-		name = path.leaf();
+		name = path.filename().string();
 		return true;
 	}
 	return false;
@@ -25,9 +25,9 @@ bool GusanosLevelLoader::canLoad(fs::path const& path, std::string& name)
 	
 bool GusanosLevelLoader::load(Level* level, fs::path const& path)
 {
-	std::string materialPath = (path / "material").native_file_string();
+	std::string materialPath = (path / "material").native();
 	
-	level->path = path.native_directory_string();
+	level->path = path.native();
 	
 	{
 		LocalSetColorDepth cd(8);

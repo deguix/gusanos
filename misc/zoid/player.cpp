@@ -386,43 +386,43 @@ void worm::init_node(bool is_authority)
     con->log.create_msg("unable to create node");
   }
   
-  node->beginReplicationSetup();
+  node->beginReplicationSetup(29);
     
     //Authority replication items
-    node->addInterpolationInt((zS32*)&x,32,false,ZCOM_REPFLAG_MOSTRECENT,ZCOM_REPRULE_AUTH_2_ALL,99,20000,NULL,-1,-1,0.2f);
-    node->addInterpolationInt((zS32*)&y,32,false,ZCOM_REPFLAG_MOSTRECENT,ZCOM_REPRULE_AUTH_2_ALL,99,20000,NULL,-1,-1,0.2f);
-    node->addReplicationInt((zS32*)&ropestate,3,false,ZCOM_REPFLAG_MOSTRECENT,ZCOM_REPRULE_AUTH_2_ALL,99,-1,-1);
-    node->addReplicationInt((zS32*)&ropex,32,false,ZCOM_REPFLAG_MOSTRECENT,ZCOM_REPRULE_AUTH_2_ALL,99,300,-1);
-    node->addReplicationInt((zS32*)&ropey,32,false,ZCOM_REPFLAG_MOSTRECENT,ZCOM_REPRULE_AUTH_2_ALL,99,300,-1);
-    node->addReplicationInt((zS32*)&ropexspd,32,false,ZCOM_REPFLAG_MOSTRECENT,ZCOM_REPRULE_AUTH_2_ALL,99,300,-1);
-    node->addReplicationInt((zS32*)&ropeyspd,32,false,ZCOM_REPFLAG_MOSTRECENT,ZCOM_REPRULE_AUTH_2_ALL,99,300,-1);
-    node->addReplicationInt((zS32*)&dir,2,true,ZCOM_REPFLAG_MOSTRECENT,ZCOM_REPRULE_AUTH_2_PROXY,99,-1,-1);
-    node->addReplicationInt((zS32*)&health,32,false,ZCOM_REPFLAG_MOSTRECENT,ZCOM_REPRULE_AUTH_2_ALL,0,-1,-1 );
-    node->addReplicationBool(&active,ZCOM_REPFLAG_RARELYCHANGED,ZCOM_REPRULE_AUTH_2_ALL,false,-1,-1 );
-    node->addReplicationInt((zS32*)&team,8,false,ZCOM_REPFLAG_RARELYCHANGED|ZCOM_REPFLAG_MOSTRECENT,ZCOM_REPRULE_AUTH_2_ALL,0,-1,-1 );
+    node->addInterpolationInt((zS32*)&x,32,false,ZCOM_REPFLAG_MOSTRECENT,ZCOM_REPRULE_AUTH_2_ALL,20000,NULL,-1,-1,0.2f);
+    node->addInterpolationInt((zS32*)&y,32,false,ZCOM_REPFLAG_MOSTRECENT,ZCOM_REPRULE_AUTH_2_ALL,20000,NULL,-1,-1,0.2f);
+    node->addReplicationInt((zS32*)&ropestate,3,false,ZCOM_REPFLAG_MOSTRECENT,ZCOM_REPRULE_AUTH_2_ALL,-1,-1);
+    node->addReplicationInt((zS32*)&ropex,32,false,ZCOM_REPFLAG_MOSTRECENT,ZCOM_REPRULE_AUTH_2_ALL,300,-1);
+    node->addReplicationInt((zS32*)&ropey,32,false,ZCOM_REPFLAG_MOSTRECENT,ZCOM_REPRULE_AUTH_2_ALL,300,-1);
+    node->addReplicationInt((zS32*)&ropexspd,32,false,ZCOM_REPFLAG_MOSTRECENT,ZCOM_REPRULE_AUTH_2_ALL,300,-1);
+    node->addReplicationInt((zS32*)&ropeyspd,32,false,ZCOM_REPFLAG_MOSTRECENT,ZCOM_REPRULE_AUTH_2_ALL,300,-1);
+    node->addReplicationInt((zS32*)&dir,2,true,ZCOM_REPFLAG_MOSTRECENT,ZCOM_REPRULE_AUTH_2_PROXY,-1,-1);
+    node->addReplicationInt((zS32*)&health,32,false,ZCOM_REPFLAG_MOSTRECENT,ZCOM_REPRULE_AUTH_2_ALL,-1,-1 );
+    node->addReplicationBool(&active,ZCOM_REPFLAG_RARELYCHANGED,ZCOM_REPRULE_AUTH_2_ALL,-1,-1 );
+    node->addReplicationInt((zS32*)&team,8,false,ZCOM_REPFLAG_RARELYCHANGED|ZCOM_REPFLAG_MOSTRECENT,ZCOM_REPRULE_AUTH_2_ALL,-1,-1 );
 		//ping (maybe ZCOM_REPRULE_AUTH_2_PROXY instead)
-		node->addReplicationInt((zS32*)&ping,32,false,ZCOM_REPFLAG_MOSTRECENT,ZCOM_REPRULE_AUTH_2_ALL,99,1000,-1);
-    //node->addReplicationInt((zS32*)&weap[0].ammo,32,false,ZCOM_REPFLAG_MOSTRECENT,ZCOM_REPRULE_AUTH_2_ALL,0,-1,-1 );
+		node->addReplicationInt((zS32*)&ping,32,false,ZCOM_REPFLAG_MOSTRECENT,ZCOM_REPRULE_AUTH_2_ALL,1000,-1);
+    //node->addReplicationInt((zS32*)&weap[0].ammo,32,false,ZCOM_REPFLAG_MOSTRECENT,ZCOM_REPRULE_AUTH_2_ALL,-1,-1 );
   
     //Owner replication items
-    node->addReplicationInt((zS32*)&aim,32,false,ZCOM_REPFLAG_MOSTRECENT,ZCOM_REPRULE_OWNER_2_AUTH|ZCOM_REPRULE_AUTH_2_PROXY,99,-1,-1);
-    node->addReplicationInt((zS32*)&color,32,false,ZCOM_REPFLAG_RARELYCHANGED|ZCOM_REPFLAG_MOSTRECENT,ZCOM_REPRULE_OWNER_2_AUTH|ZCOM_REPRULE_AUTH_2_PROXY,0,-1,-1 );
-    node->addReplicationString(name,32,ZCOM_REPFLAG_RARELYCHANGED|ZCOM_REPFLAG_MOSTRECENT,ZCOM_REPRULE_OWNER_2_AUTH|ZCOM_REPRULE_AUTH_2_PROXY," ",-1,-1 );
-    node->addReplicationBool(&talking,ZCOM_REPFLAG_RARELYCHANGED|ZCOM_REPFLAG_MOSTRECENT,ZCOM_REPRULE_OWNER_2_AUTH|ZCOM_REPRULE_AUTH_2_PROXY,false,-1,-1 );
+    node->addReplicationInt((zS32*)&aim,32,false,ZCOM_REPFLAG_MOSTRECENT,ZCOM_REPRULE_OWNER_2_AUTH|ZCOM_REPRULE_AUTH_2_PROXY,-1,-1);
+    node->addReplicationInt((zS32*)&color,32,false,ZCOM_REPFLAG_RARELYCHANGED|ZCOM_REPFLAG_MOSTRECENT,ZCOM_REPRULE_OWNER_2_AUTH|ZCOM_REPRULE_AUTH_2_PROXY,-1,-1 );
+    node->addReplicationString(name,32,ZCOM_REPFLAG_RARELYCHANGED|ZCOM_REPFLAG_MOSTRECENT,ZCOM_REPRULE_OWNER_2_AUTH|ZCOM_REPRULE_AUTH_2_PROXY,-1,-1 );
+    node->addReplicationBool(&talking,ZCOM_REPFLAG_RARELYCHANGED|ZCOM_REPFLAG_MOSTRECENT,ZCOM_REPRULE_OWNER_2_AUTH|ZCOM_REPRULE_AUTH_2_PROXY,-1,-1 );
     
     //Keys structure replication
-    node->addReplicationBool(&keys->fire,0,ZCOM_REPRULE_OWNER_2_AUTH,false,-1,-1 );
-    node->addReplicationBool(&keys->left,0,ZCOM_REPRULE_OWNER_2_AUTH,false,-1,-1 );
-    node->addReplicationBool(&keys->right,0,ZCOM_REPRULE_OWNER_2_AUTH,false,-1,-1 );
-    node->addReplicationBool(&keys->up,0,ZCOM_REPRULE_OWNER_2_AUTH,false,-1,-1 );
-    node->addReplicationBool(&keys->down,0,ZCOM_REPRULE_OWNER_2_AUTH,false,-1,-1 );
-    node->addReplicationBool(&keys->jump,0,ZCOM_REPRULE_OWNER_2_AUTH,false,-1,-1 );
+    node->addReplicationBool(&keys->fire,0,ZCOM_REPRULE_OWNER_2_AUTH,-1,-1 );
+    node->addReplicationBool(&keys->left,0,ZCOM_REPRULE_OWNER_2_AUTH,-1,-1 );
+    node->addReplicationBool(&keys->right,0,ZCOM_REPRULE_OWNER_2_AUTH,-1,-1 );
+    node->addReplicationBool(&keys->up,0,ZCOM_REPRULE_OWNER_2_AUTH,-1,-1 );
+    node->addReplicationBool(&keys->down,0,ZCOM_REPRULE_OWNER_2_AUTH,-1,-1 );
+    node->addReplicationBool(&keys->jump,0,ZCOM_REPRULE_OWNER_2_AUTH,-1,-1 );
     node->addReplicationBool(&keys->change,0,ZCOM_REPRULE_OWNER_2_AUTH,false,-1,-1 );
     
     //Weapons replication
-    node->addReplicationInt((zS32*)&curr_weap,8,true,ZCOM_REPFLAG_MOSTRECENT,ZCOM_REPRULE_OWNER_2_AUTH|ZCOM_REPRULE_AUTH_2_PROXY,0,-1,-1);
+    node->addReplicationInt((zS32*)&curr_weap,8,true,ZCOM_REPFLAG_MOSTRECENT,ZCOM_REPRULE_OWNER_2_AUTH|ZCOM_REPRULE_AUTH_2_PROXY,-1,-1);
     for(int i=0;i<5;i++)
-      node->addReplicationInt((zS32*)&weap[i].weap,32,false,ZCOM_REPFLAG_RARELYCHANGED|ZCOM_REPFLAG_MOSTRECENT,ZCOM_REPRULE_OWNER_2_AUTH|ZCOM_REPRULE_AUTH_2_PROXY,0,-1,-1 );
+      node->addReplicationInt((zS32*)&weap[i].weap,32,false,ZCOM_REPFLAG_RARELYCHANGED|ZCOM_REPFLAG_MOSTRECENT,ZCOM_REPRULE_OWNER_2_AUTH|ZCOM_REPRULE_AUTH_2_PROXY,-1,-1 );
     
   node->endReplicationSetup();
 

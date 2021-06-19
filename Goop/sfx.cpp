@@ -9,10 +9,18 @@ using namespace boost::assign;
 
 #include <vector>
 #include <list>
-#include <fmod.h>
+#include <fmod.hpp>
+#include <fmod_errors.h>
 #include <boost/utility.hpp>
 
 using namespace std;
+
+#define FMOD_ERROR_CHECK \
+	if (fmod_result != FMOD_OK) { \
+		console.addLogMsg(string("* FMOD ERROR ") + FMOD_ErrorString(fmod_result)); \
+		return; \
+	}
+// cerr << "* FMOD ERROR " << FMOD_ErrorString(sfx.fmod_result) << endl; \
 
 Sfx sfx;
 
@@ -20,15 +28,14 @@ namespace
 {
 	bool m_initialized = false;
 	
-	std::list< std::pair< int, BaseObject* > > chanObject;
+	std::list< std::pair< FMOD::Channel*, BaseObject* > > chanObject;
 	std::vector<Listener*> listeners;
 	
-	int m_volume;
-	int m_listenerDistance;
-	int m_outputMode = -1;
+	float m_volume = 1.0;
+	float m_listenerDistance = 1.0;
 }
 
-void volume( int oldValue )
+void volume( float oldValue )
 {
 	if (sfx) sfx.volumeChange();
 }
@@ -44,10 +51,20 @@ Sfx::~Sfx()
 void Sfx::init()
 {
 	// Select a driver
+	fmod_result = FMOD::System_Create(&m_fmod_system);		// Create the main system object.
+	FMOD_ERROR_CHECK;
+
+	fmod_result = m_fmod_system->setOutput(m_outputMode);
+	FMOD_ERROR_CHECK;
 	
-	FSOUND_SetOutput(m_outputMode);
-	FSOUND_SetDriver(0);
+	fmod_result = m_fmod_system->setDriver(0);
+	FMOD_ERROR_CHECK;
 	
+	fmod_result = m_fmod_system->init(32, FMOD_INIT_NORMAL, 0);	// Initialize FMOD.
+	FMOD_ERROR_CHECK;
+	//fmod already sets software sample rate to 48000.
+	
+
 	/* We select default driver for now
 	int numDrivers = FSOUND_GetNumDrivers();
 	// TODO: Desired driver here: string desiredDriver(); 
@@ -65,19 +82,33 @@ void Sfx::init()
 	}
 	
 	FSOUND_SetDriver(selectedDriver);*/
+	
+	fmod_result = m_fmod_system->set3DSettings(1.0, 20.0, 2.0);	// Initialize FMOD.
+	FMOD_ERROR_CHECK;
 
-	FSOUND_Init(44100, 32, 0);
-	FSOUND_3D_SetDistanceFactor(20);
-	FSOUND_3D_SetRolloffFactor(2);
+	fmod_result = m_fmod_system->getMasterChannelGroup(&m_fmod_mastercg);	// Initialize FMOD.
+	FMOD_ERROR_CHECK;
+	
 	volumeChange();
 	
-	console.addLogMsg(string("* FMOD LIB INITIALIZED, USING DRIVER ") + FSOUND_GetDriverName(FSOUND_GetDriver()));
+	int fmod_driver_number;
+	std::string fmod_driver_name;
+	fmod_driver_name.resize(64);
+	
+	fmod_result = m_fmod_system->getDriver(&fmod_driver_number);	// Initialize FMOD.
+	FMOD_ERROR_CHECK;
+	fmod_result = m_fmod_system->getDriverInfo(fmod_driver_number, fmod_driver_name.data(), 64, 0);	// Initialize FMOD.
+	FMOD_ERROR_CHECK;
+	
+	console.addLogMsg(std::string("* FMOD LIB INITIALIZED, USING DRIVER ") + fmod_driver_name);
 	m_initialized = true;
 }
 
 void Sfx::shutDown()
 {
-	FSOUND_Close();
+	fmod_result = m_fmod_system->release();
+	FMOD_ERROR_CHECK;
+	m_fmod_system = nullptr;
 }
 
 void Sfx::registerInConsole()
@@ -85,31 +116,26 @@ void Sfx::registerInConsole()
 	{
 		EnumVariable::MapType outputModes;
 		insert(outputModes)
-			("AUTO", -1)
-			("NOSFX", FSOUND_OUTPUT_NOSOUND)
+			("AUTO", FMOD_OUTPUTTYPE_AUTODETECT)
+			("NOSFX", FMOD_OUTPUTTYPE_NOSOUND)
 #ifdef WINDOWS
-			("WINMM", FSOUND_OUTPUT_WINMM)
-			("DSOUND", FSOUND_OUTPUT_DSOUND)
+			("DSOUND", FMOD_OUTPUTTYPE_DSOUND) //Default on older Windows
+			("WINMM", FMOD_OUTPUTTYPE_WINMM)
+			("WASAPI", FMOD_OUTPUTTYPE_WASAPI) //Default on Windows Vista and above
+			("ASIO", FMOD_OUTPUTTYPE_ASIO) //Low latency
 #else //ifdef LINUX
-			("A3D", FSOUND_OUTPUT_A3D) // Is this Linux, Windows or both?
-			("OSS", FSOUND_OUTPUT_OSS)
-			("ESD", FSOUND_OUTPUT_ESD)
-			("ALSA", FSOUND_OUTPUT_ALSA)
-			//("ASIO", FSOUND_OUTPUT_ASIO) //What's this
-#endif
-
-#if 0 //These aren't useful at the moment
-			("XBOX", FSOUND_OUTPUT_XBOX)
-			("PS2", FSOUND_OUTPUT_PS2)
-			("MAC", FSOUND_OUTPUT_MAC)
-			("GC", FSOUND_OUTPUT_GC)
+			("ALSA", FMOD_OUTPUTTYPE_ALSA) //Default on Linux
+			("PULSEAUDIO", FMOD_OUTPUTTYPE_PULSEAUDIO)
+			("OSS", FMOD_OUTPUTTYPE_OSS)
+			("ESD", FMOD_OUTPUTTYPE_ESD)
+			("COREAUDIO", FMOD_OUTPUTTYPE_COREAUDIO) //Mac ONLY - but might work under Wine there!
 #endif
 		;
 
 		console.registerVariables()
-			("SFX_VOLUME", &m_volume, 255, volume)
+			("SFX_VOLUME", &m_volume, 1.0, volume)
 			("SFX_LISTENER_DISTANCE", &m_listenerDistance, 20)
-			(new EnumVariable("SFX_OUTPUT_MODE", &m_outputMode, -1, outputModes))
+			(new EnumVariable("SFX_OUTPUT_MODE", (int*)&m_outputMode, FMOD_OUTPUTTYPE_AUTODETECT, outputModes))
 		;
 		
 		// NOTE: When/if adding a callback to sfx variables, make it do nothing if
@@ -119,13 +145,18 @@ void Sfx::registerInConsole()
 
 void Sfx::think()
 {
-	FSOUND_Update();
+	fmod_result = m_fmod_system->update();
+	FMOD_ERROR_CHECK;
 	
 	for (size_t i = 0; i < listeners.size(); ++i )
 	{
-		FSOUND_3D_Listener_SetCurrent(i,listeners.size());
-		float pos[3] = { listeners[i]->pos.x, listeners[i]->pos.y, -m_listenerDistance };
-		FSOUND_3D_Listener_SetAttributes(pos,NULL,0,0,1,0,1,0);
+		fmod_result = m_fmod_system->set3DNumListeners(listeners.size());
+		FMOD_ERROR_CHECK;
+		FMOD_VECTOR pos[3] = { listeners[i]->pos.x, listeners[i]->pos.y, -m_listenerDistance };
+		FMOD_VECTOR forward[3] = { 0.0f, 0.0f, 1.0f };
+		FMOD_VECTOR up[3] = { 0.0f, 1.0f, 0.0f };
+		fmod_result = m_fmod_system->set3DListenerAttributes(i, pos, 0, forward, up);
+		FMOD_ERROR_CHECK;
 	}
 	
 	//Update 3d channel that follow objects positions
@@ -138,17 +169,21 @@ void Sfx::think()
 	*/
 	foreach_delete(obj, chanObject)
 	{
-
+		bool fmod_channel_isPlaying;
+		fmod_result = ( obj->first )->isPlaying(&fmod_channel_isPlaying);
+		FMOD_ERROR_CHECK;
+		
 		if( !obj->second
 		||  obj->second->deleteMe
-		||  !FSOUND_IsPlaying( obj->first ) )
+		||  !fmod_channel_isPlaying )
 		{
 			chanObject.erase(obj);
 		}
 		else
 		{
-			float pos[3] = { obj->second->pos.x, obj->second->pos.y, 0 };
-			FSOUND_3D_SetAttributes(obj->first, pos, NULL);
+			FMOD_VECTOR pos[3] = { obj->second->pos.x, obj->second->pos.y, 0 };
+			fmod_result = (obj->first)->set3DAttributes(pos, 0);
+			FMOD_ERROR_CHECK;
 		}
 	}
 
@@ -168,9 +203,9 @@ void Sfx::think()
 
 }
 
-void Sfx::setChanObject(int chan, BaseObject* object)
+void Sfx::setChanObject(FMOD::Channel* chan, BaseObject* object)
 {
-	chanObject.push_back( pair< int, BaseObject* > ( chan, object ) );
+	chanObject.push_back( pair< FMOD::Channel*, BaseObject* > ( chan, object ) );
 }
 	
 void Sfx::clear()
@@ -200,7 +235,8 @@ void Sfx::freeListener(Listener* listener)
 
 void Sfx::volumeChange()
 {
-	FSOUND_SetSFXMasterVolume(m_volume);
+	fmod_result = m_fmod_mastercg->setVolume(m_volume);	// Initialize FMOD.
+	FMOD_ERROR_CHECK;
 }
 
 Sfx::operator bool()

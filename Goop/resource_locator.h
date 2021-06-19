@@ -80,7 +80,7 @@ struct ResourceLocator
 	{
 		for(typename NamedResourceMap::iterator i = m_namedResources.begin(); i != m_namedResources.end();)
 		{
-			typename NamedResourceMap::iterator next = boost::next(i);
+			typename NamedResourceMap::iterator next = std::next(i);
 			
 			if(!i->second.cached)
 			{
@@ -137,7 +137,7 @@ private:
 template<class T, bool Cache, bool ReturnResource>
 void ResourceLocator<T, Cache, ReturnResource>::refresh(fs::path const& path)
 {
-	//std::cout << "Scanning: " << path.native_file_string() << std::endl;
+	//std::cout << "Scanning: " << path.native() << std::endl;
 	try
 	{
 		fs::directory_iterator i(path), e;
@@ -171,7 +171,7 @@ void ResourceLocator<T, Cache, ReturnResource>::refresh(fs::path const& path)
 				}
 				else
 				{
-					std::cout << "Duplicate resource: " << name << ", old path: " << r.first->second.path.native_file_string() << ", new path: " << i->native_file_string() << std::endl;
+					std::cout << "Duplicate resource: " << name << ", old path: " << r.first->second.path.native() << ", new path: " << i->native() << std::endl;
 				}
 				*/
 			}
