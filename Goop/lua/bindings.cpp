@@ -39,7 +39,7 @@
 using std::cerr;
 using std::endl;
 #include <boost/lexical_cast.hpp>
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/convenience.hpp>
 #include <boost/filesystem/fstream.hpp>
@@ -353,7 +353,7 @@ int l_console_register_command(lua_State* L)
 	LuaReference ref = lua.createReference();
 	
 	console.registerCommands()
-			(name, boost::bind(LuaBindings::luaConsoleCommand, ref, _1), true);
+			(name, boost::bind(LuaBindings::luaConsoleCommand, ref, boost::placeholders::_1), true);
 
 	return 0;
 }
@@ -553,7 +553,7 @@ int l_fetch_server_list(lua_State* L)
 		return 0;
 
 	network.addHttpRequest(req,
-		boost::bind(serverListCallb, L, ref, _1));
+		boost::bind(serverListCallb, L, ref, boost::placeholders::_1));
 
 	return 0;
 }

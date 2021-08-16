@@ -23,7 +23,7 @@
 using std::cerr;
 using std::endl;
 #include <boost/lexical_cast.hpp>
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 using boost::lexical_cast;
 
 namespace LuaBindings
@@ -72,8 +72,8 @@ int l_console_register_control(lua_State* L)
 	for(size_t i = 0; i < Game::MAX_LOCAL_PLAYERS; ++i)
 	{
 		console.registerCommands()
-			((S_("+P") << i << '_' << name), boost::bind(LuaBindings::luaControl, ref, i, true, _1), true)
-			((S_("-P") << i << '_' << name), boost::bind(LuaBindings::luaControl, ref, i, false, _1), true);
+			((S_("+P") << i << '_' << name), boost::bind(LuaBindings::luaControl, ref, i, true, boost::placeholders::_1), true)
+			((S_("-P") << i << '_' << name), boost::bind(LuaBindings::luaControl, ref, i, false, boost::placeholders::_1), true);
 	}
 	
 	return 0;

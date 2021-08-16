@@ -9,7 +9,7 @@
 #include "util/text.h"
 #include "util/log.h"
 #include "util/stringbuild.h"
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 
 #include <string>
 #include <list>
@@ -89,8 +89,8 @@ void registerPlayerInput()
 		for(int action = Player::LEFT; action < Player::ACTION_COUNT; ++action)
 		{
 			console.registerCommands()
-				((S_("+P") << i << actionNames[action]), boost::bind(eventStart, i, (Player::Actions)action, _1))
-				((S_("-P") << i << actionNames[action]), boost::bind(eventStop, i, (Player::Actions)action, _1))
+				((S_("+P") << i << actionNames[action]), boost::bind(eventStart, i, (Player::Actions)action, boost::placeholders::_1))
+				((S_("-P") << i << actionNames[action]), boost::bind(eventStop, i, (Player::Actions)action, boost::placeholders::_1))
 			;
 		}
 	}

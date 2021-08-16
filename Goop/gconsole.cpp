@@ -14,7 +14,7 @@
 #include "network.h" //TEMP
 
 #include <allegro.h>
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 #include <boost/lexical_cast.hpp>
 using boost::lexical_cast;
 
@@ -319,9 +319,9 @@ void GConsole::init()
 	
 	//Connect the handlers as group 0 so they are called first
 
-	keyHandler.printableChar.connect(0, boost::bind(&GConsole::eventPrintableChar, this, _1, _2));
-	keyHandler.keyDown.connect(0, boost::bind(&GConsole::eventKeyDown, this, _1));
-	keyHandler.keyUp.connect(0, boost::bind(&GConsole::eventKeyUp, this, _1));
+	keyHandler.printableChar.connect(0, boost::bind(&GConsole::eventPrintableChar, this, boost::placeholders::_1, boost::placeholders::_2));
+	keyHandler.keyDown.connect(0, boost::bind(&GConsole::eventKeyDown, this, boost::placeholders::_1));
+	keyHandler.keyUp.connect(0, boost::bind(&GConsole::eventKeyUp, this, boost::placeholders::_1));
 #endif
 
 	m_mode = CONSOLE_MODE_BINDINGS;
@@ -331,7 +331,7 @@ void GConsole::init()
 		("CON_SPEED", &speed, 4)
 		("CON_HEIGHT", &height, 120)
 #ifndef DEDSERV
-		("CON_FONT", &m_fontName, "minifont", boost::bind(&GConsole::varCbFont, this, _1))
+		("CON_FONT", &m_fontName, "minifont", boost::bind(&GConsole::varCbFont, this, boost::placeholders::_1))
 #endif
 	;
 
@@ -344,7 +344,7 @@ void GConsole::init()
 		(string("SETALTGRCHAR"), setAltGrChar)
 		(string("SETCHAR"), setChar)
 */
-		(string("SETCONSOLEKEY"), boost::bind(&GConsole::setConsoleKey, this, _1))
+		(string("SETCONSOLEKEY"), boost::bind(&GConsole::setConsoleKey, this, boost::placeholders::_1))
 #endif
 		(string("EXEC"), execCmd)
 		//(string("EXECSCRIPT"), execScript)

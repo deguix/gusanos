@@ -1,6 +1,6 @@
 #include "gfx.h"
 
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 #include <boost/assign/list_inserter.hpp>
 using namespace boost::assign;
 

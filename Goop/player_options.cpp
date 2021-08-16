@@ -1,6 +1,6 @@
 #include "player_options.h"
 #include "gconsole.h"
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 #include "util/text.h"
 #include <cmath>
 #include <list>
@@ -37,9 +37,9 @@ void PlayerOptions::registerInConsole(int index)
 	;
 	
 	console.registerCommands()
-		//("P" + sindex + "_COLOR", boost::bind(&PlayerOptions::setColour, this, _1))
-		("P" + sindex + "_COLOUR", boost::bind(&PlayerOptions::setColour, this, _1))
-		("P" + sindex + "_TEAM", boost::bind(&PlayerOptions::setTeam, this, _1))
+		//("P" + sindex + "_COLOR", boost::bind(&PlayerOptions::setColour, this, boost::placeholders::_1))
+		("P" + sindex + "_COLOUR", boost::bind(&PlayerOptions::setColour, this, boost::placeholders::_1))
+		("P" + sindex + "_TEAM", boost::bind(&PlayerOptions::setTeam, this, boost::placeholders::_1))
 	;
 }
 
