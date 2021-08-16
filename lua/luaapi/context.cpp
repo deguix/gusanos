@@ -1,9 +1,6 @@
 #include "context.h"
 
-extern "C"
-{
-	#include "../lualib.h"
-}
+#include <lua.hpp>
 
 #include <iostream>
 using std::cerr;
