@@ -23,11 +23,6 @@ using namespace std;
 		cerr << "* FMOD ERROR " << FMOD_ErrorString(sfx.fmod_result) << endl; \
 		return; \
 	}
-#define FMOD_ERROR_CHECK_WITH_BOOLEAN \
-	if (sfx.fmod_result != FMOD_OK) { \
-		cerr << "* FMOD ERROR " << FMOD_ErrorString(sfx.fmod_result) << endl; \
-		return false; \
-	}
 
 ResourceList<Sound1D> sound1DList;
 
@@ -49,7 +44,10 @@ bool Sound1D::load(fs::path const& filename)
 	//cerr << "Loading sound: " << filename.native() << endl;
 	
 	sfx.fmod_result = sfx.m_fmod_system->createSound(filename.native().c_str(), FMOD_2D | FMOD_LOWMEM, 0, &m_sound); //FSOUND_FORCEMONO
-	FMOD_ERROR_CHECK_WITH_BOOLEAN;
+	if (sfx.fmod_result != FMOD_OK) {
+		cerr << "* FMOD ERROR File not found or error while loading: " << filename.native().c_str() << endl;
+		return false;
+	}
 	if ( m_sound )
 	{
 		return true;
