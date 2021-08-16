@@ -17,7 +17,7 @@ if (platform == "win64") or (platform == "win32"):
 	#use mingw only - msvc is not supported yet
 	env = Environment(tools = ['mingw'], ENV = {'PATH' : os.environ['PATH']})
 	
-	env.Append(LIBS 		= ['stdc++', 'zoidcom', 'fmodex64', 'png', 'z', 'boost_filesystem', 'alleg'])
+	env.Append(LIBS 		= ['stdc++', 'lua5.1', 'zoidcom', 'fmodex64', 'png', 'z', 'boost_filesystem', 'alleg'])
 	env.Append(LIBPATH 		= ['.', './zoidcom/lib/mingw/']) #will find dll's in program folder.
 	env.Append(CPPDEFINES 	= [''])
 	env.Append(CPPFLAGS 	= ['WINDOWS', '-pipe', '-Wall', '-Wno-reorder']) #, '-Werror', '-static-libstdc++']
@@ -27,13 +27,12 @@ else:
 	#will probably use gcc here
 	env = Environment()
 	
-	env.Append(LIBS 		= ['zoidcom', 'fmodex64', 'png', 'z', 'boost_filesystem', 'alleg'])
+	env.Append(LIBS 		= ['lua5.1', 'zoidcom', 'fmodex64', 'png', 'z', 'boost_filesystem', 'alleg'])
 	env.Append(LIBPATH 		= ['/usr/lib', './zoidcom/lib/linux64/'])
 	env.Append(CPPDEFINES 	= [''])
 	env.Append(CPPFLAGS 	= ['-pipe', '-Wall', '-Wno-reorder']) #, '-Werror']
 	env.Append(CXXFLAGS 	= [''])
 	env.Append(CPPPATH		= ['/usr/include/fmodex', './Utility','./zoidcom/include','./lua51','./GUI','./Console','./OmfgScript','./http'])
-
 
 debug = ARGUMENTS.get('debug', 0)
 dedserv = ARGUMENTS.get('dedserv', 0)

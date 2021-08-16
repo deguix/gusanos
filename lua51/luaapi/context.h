@@ -1,6 +1,8 @@
 #ifndef LUA_CONTEXT_H
 #define LUA_CONTEXT_H
 
+#include <cassert>
+
 extern "C"
 {
 #include "../lua.h"
