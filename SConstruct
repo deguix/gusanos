@@ -22,7 +22,7 @@ if (platform == "win64") or (platform == "win32"):
 	env.Append(CPPDEFINES 	= [''])
 	env.Append(CPPFLAGS 	= ['WINDOWS', '-pipe', '-Wall', '-Wno-reorder']) #, '-Werror', '-static-libstdc++']
 	env.Append(CXXFLAGS 	= [''])
-	env.Append(CPPPATH		= ['./fmodex/api/inc/', './Utility','./zoidcom/include','./lua51','./GUI','./Console','./OmfgScript','./http'])
+	env.Append(CPPPATH		= ['./fmodex/api/inc/', './Utility','./zoidcom/include','./lua','./GUI','./Console','./OmfgScript','./http'])
 else:
 	#will probably use gcc here
 	env = Environment()
@@ -32,7 +32,7 @@ else:
 	env.Append(CPPDEFINES 	= [''])
 	env.Append(CPPFLAGS 	= ['-pipe', '-Wall', '-Wno-reorder']) #, '-Werror']
 	env.Append(CXXFLAGS 	= [''])
-	env.Append(CPPPATH		= ['/usr/include/fmodex', './Utility','./zoidcom/include','./lua51','./GUI','./Console','./OmfgScript','./http'])
+	env.Append(CPPPATH		= ['/usr/include/lua5.1', '/usr/include/fmodex', './Utility','./zoidcom/include','./lua','./GUI','./Console','./OmfgScript','./http'])
 
 debug = ARGUMENTS.get('debug', 0)
 dedserv = ARGUMENTS.get('dedserv', 0)

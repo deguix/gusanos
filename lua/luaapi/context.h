@@ -3,10 +3,7 @@
 
 #include <cassert>
 
-extern "C"
-{
-#include "../lua.h"
-}
+#include <lua.hpp>
 
 #include "types.h"
 #include <iostream>
