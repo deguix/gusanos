@@ -589,7 +589,7 @@ void Network::disconnect( ZCom_ConnID id, DConnEvents event )
 {
 	if(!m_control) return;
 	
-	std::auto_ptr<ZCom_BitStream> eventData(new ZCom_BitStream);
+	std::unique_ptr<ZCom_BitStream> eventData(new ZCom_BitStream);
 	eventData->addInt( static_cast<int>( event ), 8 );
 	m_control->ZCom_Disconnect( id, eventData.release());
 }

@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
-using std::auto_ptr;
+using std::unique_ptr;
 
 #include <string>
 #include <stdexcept>
@@ -17,13 +17,13 @@ template<class T>
 struct TGrammar {
 #define self (static_cast<T *>(this))
 ~TGrammar() { free(buffer); }
-struct Token{ typedef std::auto_ptr<Token> ptr;
+struct Token{ typedef std::unique_ptr<Token> ptr;
 
 virtual ~Token() {}
 };
 
 struct STRING : public Token {
-typedef std::auto_ptr<STRING> ptr;
+typedef std::unique_ptr<STRING> ptr;
 #define CONSTRUCT(b_, e_) STRING(T& g, char const* b_, char const* e_)
 
 	CONSTRUCT(b, e) : str(b, e) { }
@@ -566,33 +566,33 @@ while(set_1[cur]) {
 if((cur == 1)) {
 next();
 if(!matchToken(9)) return;
-std::auto_ptr<STRING> class_(static_cast<STRING*>(curData.release()));
+std::unique_ptr<STRING> class_(static_cast<STRING*>(curData.release()));
 next();
  sel.addClass(class_->str); 
 }
 else if((cur == 2)) {
 next();
 if(!matchToken(9)) return;
-std::auto_ptr<STRING> id(static_cast<STRING*>(curData.release()));
+std::unique_ptr<STRING> id(static_cast<STRING*>(curData.release()));
 next();
  sel.addID(id->str); 
 }
 else if((cur == 3)) {
 next();
 if(!matchToken(9)) return;
-std::auto_ptr<STRING> state(static_cast<STRING*>(curData.release()));
+std::unique_ptr<STRING> state(static_cast<STRING*>(curData.release()));
 next();
  sel.addState(state->str); 
 }
 else if((cur == 8)) {
 next();
 if(!matchToken(9)) return;
-std::auto_ptr<STRING> group(static_cast<STRING*>(curData.release()));
+std::unique_ptr<STRING> group(static_cast<STRING*>(curData.release()));
 next();
  sel.addGroup(group->str); 
 }
 else if((cur == 9)) {
-std::auto_ptr<STRING> tag(static_cast<STRING*>(curData.release()));
+std::unique_ptr<STRING> tag(static_cast<STRING*>(curData.release()));
 next();
  sel.addTag(tag->str); 
 }
@@ -616,21 +616,21 @@ rule_clause();
 }
 }
 void rule_property(Context::GSSselector& sel) {
-std::auto_ptr<STRING> name(static_cast<STRING*>(curData.release()));
+std::unique_ptr<STRING> name(static_cast<STRING*>(curData.release()));
 next();
 if(!matchToken(3)) return;
 next();
  std::list<std::string>& v = sel.addProperty(name->str); 
 while(set_8[cur]) {
 if((cur == 9)) {
-std::auto_ptr<STRING> value(static_cast<STRING*>(curData.release()));
+std::unique_ptr<STRING> value(static_cast<STRING*>(curData.release()));
 next();
  v.push_back(value->str); 
 }
 else if((cur == 2)) {
 next();
 if(!matchToken(9)) return;
-std::auto_ptr<STRING> value(static_cast<STRING*>(curData.release()));
+std::unique_ptr<STRING> value(static_cast<STRING*>(curData.release()));
 next();
  v.push_back('#' + value->str); 
 }
@@ -651,7 +651,7 @@ set_8[2] = true;
 set_8[9] = true;
 }
 int cur;
-std::auto_ptr<Token> curData;
+std::unique_ptr<Token> curData;
 char* curp;
 char* limit;
 char* marker;

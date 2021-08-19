@@ -163,7 +163,7 @@ void Server::ZCom_cbConnectionSpawned( ZCom_ConnID _id )
 	ZCom_requestDownstreamLimit(_id, network.downPPS, network.downBPP);
 	network.incConnCount();
 
-	std::auto_ptr<ZCom_BitStream> data(new ZCom_BitStream);
+	std::unique_ptr<ZCom_BitStream> data(new ZCom_BitStream);
 	Encoding::encode(*data, Network::ClientEvents::LuaEvents, Network::ClientEvents::Max); 
 	network.encodeLuaEvents(data.get());
 	ZCom_sendData ( _id, data.release(), eZCom_ReliableOrdered);

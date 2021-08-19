@@ -56,7 +56,7 @@ void Client::requestPlayers()
 
 void Client::sendConsistencyInfo()
 {
-	std::auto_ptr<ZCom_BitStream> req(new ZCom_BitStream);
+	std::unique_ptr<ZCom_BitStream> req(new ZCom_BitStream);
 	req->addInt(Network::ConsistencyInfo, 8);
 	req->addInt(Network::protocolVersion, 32);
 	game.addCRCs(req.get());

@@ -19,7 +19,7 @@ if (platform == "win64") or (platform == "win32"):
 	
 	env.Append(LIBS 		= ['stdc++', 'luajit-5.1', 'zoidcom', 'fmodex64', 'png', 'z', 'boost_filesystem', 'alleg'])
 	env.Append(LIBPATH 		= ['.', './zoidcom/lib/mingw/']) #will find dll's in program folder.
-	env.Append(CPPDEFINES 	= [''])
+	env.Append(CPPDEFINES 	= ['ALLEGRO_NO_FIX_ALIASES', 'ALLEGRO_LEGACY_NO_FIX_ALIASES'])
 	env.Append(CPPFLAGS 	= ['WINDOWS', '-pipe', '-Wall', '-Wno-reorder']) #, '-Werror', '-static-libstdc++']
 	env.Append(CXXFLAGS 	= [''])
 	env.Append(CPPPATH		= ['./fmodex/api/inc/', './Utility','./zoidcom/include','./lua','./GUI','./Console','./OmfgScript','./http'])
@@ -29,10 +29,11 @@ else:
 	
 	env.Append(LIBS 		= ['luajit-5.1', 'zoidcom', 'fmodex64', 'png', 'z', 'boost_filesystem', 'alleg'])
 	env.Append(LIBPATH 		= ['/usr/lib', './zoidcom/lib/linux64/'])
-	env.Append(CPPDEFINES 	= [''])
+	env.Append(CPPDEFINES 	= ['ALLEGRO_NO_FIX_ALIASES', 'ALLEGRO_LEGACY_NO_FIX_ALIASES'])
 	env.Append(CPPFLAGS 	= ['-pipe', '-Wall', '-Wno-reorder']) #, '-Werror']
 	env.Append(CXXFLAGS 	= [''])
-	env.Append(CPPPATH		= ['/usr/include/luajit-2.1', '/usr/include/fmodex', './Utility','./zoidcom/include','./lua','./GUI','./Console','./OmfgScript','./http'])
+	env.Append(CPPPATH		= ['/usr/local/include/allegro', '/usr/include/luajit-2.1', '/usr/include/fmodex', './Utility','./zoidcom/include','./lua','./GUI','./Console','./OmfgScript','./http'])
+
 
 debug = ARGUMENTS.get('debug', 0)
 dedserv = ARGUMENTS.get('dedserv', 0)

@@ -131,7 +131,7 @@ int l_tcp_connect(lua_State* L)
 	
 	sockaddr_in server;
 	
-	std::auto_ptr<TCP::Hostent> hp(TCP::resolveHost( addr ));
+	std::unique_ptr<TCP::Hostent> hp(TCP::resolveHost( addr ));
 	
 	if(!hp.get())
 		return 0;
