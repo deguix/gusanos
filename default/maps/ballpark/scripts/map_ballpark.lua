@@ -37,7 +37,7 @@ function map_ballpark.init()
 		if not AUTH then return end
 		
 		if not ballOwner then
-			local p = worm:get_player()
+			local p = worm:player()
 			local b = new_bitstream()
 			b:add_int(p:stats().kotb_timer)
 			timerStart:send(p, b)
@@ -54,7 +54,7 @@ function map_ballpark.init()
 		if not AUTH then return end
 		
 		if ballOwner == worm then
-			local p = worm:get_player()
+			local p = worm:player()
 			if p then
 				local b = new_bitstream()
 				b:add_int(p:stats().kotb_timer)
@@ -98,8 +98,8 @@ function map_ballpark.init()
 	end
 	
 	function bindings.viewportRender(viewport, worm)
-		local bitmap = viewport:get_bitmap()
-		local p = worm:get_player()
+		local bitmap = viewport:bitmap()
+		local p = worm:player()
 		
 		local r, g, b
 		
@@ -111,7 +111,7 @@ function map_ballpark.init()
 			r, g, b = 255, 255, 255
 		end
 		
-		fonts.liero:render( bitmap, to_time_string(p:stats().kotb_timer), bitmap:w() - 5, 20, r, g, b, Font.CenterV + Font.Right )
+		fonts.liero:render( bitmap, to_time_string(p:stats().kotb_timer), bitmap:w() - 5, 20, color(r, g, b), Font.CenterV + Font.Right )
 	end
 end
 
