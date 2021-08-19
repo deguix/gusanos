@@ -63,7 +63,7 @@ static void read_data(png_structp png_ptr, png_bytep data, png_uint_32 length)
 
 static int check_if_png(PACKFILE *fp)
 {
-    char buf[PNG_BYTES_TO_CHECK];
+    unsigned char buf[PNG_BYTES_TO_CHECK];
 
     if (pack_fread(buf, PNG_BYTES_TO_CHECK, fp) != PNG_BYTES_TO_CHECK)
 	return 0;

@@ -168,6 +168,8 @@
 		pixel_t_src_1* src = src_; \
 		op_1; ++dest_; ++src_; } }
 
+//long b##end2 = b##2 - (grad*(a##2 - a##end2) >> prec); \ //after line: long a##end2 =
+
 #define WULINE(a, b, OFFA, OFFB, DEPTH, SHIFT, MAX, BLEND) { \
 		if(a##diff < 0)	{ \
 			a##diff = -a##diff; \
@@ -179,7 +181,6 @@
 			long a##end1 = a##1 & ~fracmask; \
 			long b##end1 = b##1 + (grad*(one - (a##1 - a##end1) + half) >> prec); \
 			long a##end2 = a##2 & ~fracmask; \
-			long b##end2 = b##2 - (grad*(a##2 - a##end2) >> prec); \
 			long b##f = b##end1 - half; \
 			long draw##a = (a##end1 + one + half) >> prec; /* TODO: Draw endpoints */  \
 			long c = (a##end2 - a##end1) >> prec; \

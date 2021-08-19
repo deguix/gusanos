@@ -512,6 +512,10 @@ void Network::update()
 				--stateTimeOut;
 		}
 		break;
+		
+		case StateConnecting:
+		case StateHosting:
+		break;
 	}
 	
 	if( reconnectTimer > 0 )

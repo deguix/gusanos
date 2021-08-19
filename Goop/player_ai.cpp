@@ -193,19 +193,18 @@ void PlayerAI::subThink()
 		Vec pos = m_worm->pos;		//AI position
 		Vec target = m_target->pos;	//Target position
 		
-		if ( m_worm->isActive() )
-		if ( pos.x < target.x )
-		{
-			if ( m_movingLeft ) baseActionStop( LEFT );
-			if ( !m_movingRight ) baseActionStart( RIGHT );
-			m_movingLeft = false;
-			m_movingRight = true;
-		}else
-		{
-			if ( m_movingRight ) baseActionStop( RIGHT );
-			if ( !m_movingLeft ) baseActionStart( LEFT );
-			m_movingRight = false;
-			m_movingLeft = true;
+		if ( m_worm->isActive() ) {
+			if ( pos.x < target.x ) {
+				if ( m_movingLeft ) baseActionStop( LEFT );
+				if ( !m_movingRight ) baseActionStart( RIGHT );
+				m_movingLeft = false;
+				m_movingRight = true;
+			} else {
+				if ( m_movingRight ) baseActionStop( RIGHT );
+				if ( !m_movingLeft ) baseActionStart( LEFT );
+				m_movingRight = false;
+				m_movingLeft = true;
+			}
 		}
 		
 		randomError = maxAimErrorOffset * midrnd();

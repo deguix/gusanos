@@ -186,7 +186,7 @@ void Console::parseLine(const string &text, bool parseRelease)
 	{
 		addLogMsg(handler.block());
 	}
-	catch(SyntaxError error)
+	catch(SyntaxError &error)
 	{
 		addLogMsg(text);
 		std::streamoff pos = handler.str.tellg();
@@ -471,7 +471,7 @@ string Console::autoComplete(string const& text)
 				return handler.prefix() + completeCommand(result.command);
 			}
 		}
-		catch(SyntaxError error)
+		catch(SyntaxError &error)
 		{
 			return text;
 		}

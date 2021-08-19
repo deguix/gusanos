@@ -20,7 +20,7 @@ using namespace std;
 		console.addLogMsg(string("* FMOD ERROR ") + FMOD_ErrorString(fmod_result)); \
 		return; \
 	}
-// cerr << "* FMOD ERROR " << FMOD_ErrorString(sfx.fmod_result) << endl; \
+// cerr << "* FMOD ERROR " << FMOD_ErrorString(sfx.fmod_result) << endl;
 
 Sfx sfx;
 

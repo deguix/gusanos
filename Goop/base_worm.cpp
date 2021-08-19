@@ -682,7 +682,7 @@ int BaseWorm::getWeaponIndexOffset( int offset )
 		int i = currentWeapon;
 		do
 			i = (i + offset + m_weaponCount) % m_weaponCount;
-		while(!m_weapons[i] && i != currentWeapon);
+		while(!m_weapons[i] && static_cast<size_t>(i) != currentWeapon);
 		
 		return i;
 	}

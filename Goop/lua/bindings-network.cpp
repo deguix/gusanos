@@ -137,14 +137,14 @@ int l_tcp_connect(lua_State* L)
 		return 0;
 	
     TCP::createAddr(server, hp.get(), port);
-    
-    int s;
-    if((s = TCP::socketNonBlock()) < 0)
-    	return 0;
-    	
-    if(!TCP::connect(s, server))
-    	return 0;
-
+	
+	int s;
+	if((s = TCP::socketNonBlock()) < 0)
+		return 0;
+	
+	if(!TCP::connect(s, server))
+		return 0;
+	
 	void* space = lua_newuserdata(context, sizeof(LuaSocket));
 	//lua_pushvalue(context, -1);
 	//LuaSocket* sock = new (space) LuaSocket(context.createReference(), s, context, recvCallback);

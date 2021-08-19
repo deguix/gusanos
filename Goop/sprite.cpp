@@ -70,9 +70,9 @@ Sprite::Sprite(Sprite const& b, Sprite const& mask, int color)
 	int colorDepth = bitmap_color_depth(b.m_bitmap);
 	LocalSetColorDepth cd(colorDepth);
 
-	int unchanged = makecol(255, 0, 255);
+	//int unchanged = makecol(255, 0, 255);
 	int wormColor = makecol(0, 0, 0);
-	int max = getr(makecol(255, 0, 0));
+	//int max = getr(makecol(255, 0, 0));
 	
 	BITMAP* maskBitmap = mask.m_bitmap;
 	BITMAP* srcBitmap = b.m_bitmap;

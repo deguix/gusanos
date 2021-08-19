@@ -179,7 +179,8 @@ using Blitters::line_add;
 	switch(bitmap_color_depth(where)) { \
 		case 16: \
 			if(HAS_MMXSSE || HAS_SSE) Blitters::f_##_16_mmx_sse x_ ; \
-			else Blitters::f_##_16 x_ ; break; \
+			else Blitters::f_##_16 x_ ; \
+		break; \
 		case 32: \
 			if(HAS_MMXSSE || HAS_SSE) Blitters::f_##_32_mmx_sse x_ ; \
 			else Blitters::f_##_32 x_ ; \
