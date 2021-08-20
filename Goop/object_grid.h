@@ -361,7 +361,7 @@ public:
 		RenderLayerCount = 10,
 	};
 	
-	static const int layerCount = ColLayerCount * RenderLayerCount;
+	static const int layerCount = static_cast<int>(ColLayerCount) * static_cast<int>(RenderLayerCount);
 	
 	typedef List<BaseObject> ObjectList;
 	

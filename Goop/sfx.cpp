@@ -83,21 +83,19 @@ void Sfx::init()
 	
 	FSOUND_SetDriver(selectedDriver);*/
 	
-	fmod_result = m_fmod_system->set3DSettings(1.0, 20.0, 2.0);	// Initialize FMOD.
+	fmod_result = m_fmod_system->set3DSettings(1.0, 20.0, 2.0);
 	FMOD_ERROR_CHECK;
 
-	fmod_result = m_fmod_system->getMasterChannelGroup(&m_fmod_mastercg);	// Initialize FMOD.
+	fmod_result = m_fmod_system->getMasterChannelGroup(&m_fmod_mastercg);
 	FMOD_ERROR_CHECK;
 	
 	volumeChange();
 	
 	int fmod_driver_number;
-	std::string fmod_driver_name;
-	fmod_driver_name.resize(64);
-	
-	fmod_result = m_fmod_system->getDriver(&fmod_driver_number);	// Initialize FMOD.
+	char* fmod_driver_name = (char*)malloc(64+1);
+	fmod_result = m_fmod_system->getDriver(&fmod_driver_number);
 	FMOD_ERROR_CHECK;
-	fmod_result = m_fmod_system->getDriverInfo(fmod_driver_number, fmod_driver_name.data(), 64, 0);	// Initialize FMOD.
+	fmod_result = m_fmod_system->getDriverInfo(fmod_driver_number, fmod_driver_name, 64+1, 0);
 	FMOD_ERROR_CHECK;
 	
 	console.addLogMsg(std::string("* FMOD LIB INITIALIZED, USING DRIVER ") + fmod_driver_name);

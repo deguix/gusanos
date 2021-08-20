@@ -20,19 +20,19 @@ void LuaCallbacks::bind(std::string callback, LuaReference ref)
 	else if(callback == "viewportRender")
 		idx = viewportRender;
 	else if(callback == "localplayerLeft")
-		idx = localplayerEvent + Player::LEFT;
+		idx = localplayerEvent + static_cast<int>(Player::LEFT);
 	else if(callback == "localplayerRight")
-		idx = localplayerEvent + Player::RIGHT;
+		idx = localplayerEvent + static_cast<int>(Player::RIGHT);
 	else if(callback == "localplayerUp")
-		idx = localplayerEvent + Player::UP;
+		idx = localplayerEvent + static_cast<int>(Player::UP);
 	else if(callback == "localplayerDown")
-		idx = localplayerEvent + Player::DOWN;
+		idx = localplayerEvent + static_cast<int>(Player::DOWN);
 	else if(callback == "localplayerJump")
-		idx = localplayerEvent + Player::JUMP;
+		idx = localplayerEvent + static_cast<int>(Player::JUMP);
 	else if(callback == "localplayerFire")
-		idx = localplayerEvent + Player::FIRE;
+		idx = localplayerEvent + static_cast<int>(Player::FIRE);
 	else if(callback == "localplayerChange")
-		idx = localplayerEvent + Player::CHANGE;
+		idx = localplayerEvent + static_cast<int>(Player::CHANGE);
 	else if(callback == "localplayerInit")
 		idx = localplayerInit;
 	else if(callback == "wormDeath")

@@ -21,7 +21,7 @@ private:
 	LItem<T>	*m_Next;
 
 public:
-	LItem<T>(T const& a_Init)
+	LItem(T const& a_Init)
 	{
 		m_Data = a_Init;
 	}
