@@ -94,7 +94,7 @@ try
 	//install millisecond timer
 	LOCK_VARIABLE(timer);
 	LOCK_FUNCTION(timerUpdate);
-	install_int_ex(timerUpdate, BPS_TO_TIMER(100));
+	timer = install_int_ex(timerUpdate, BPS_TO_TIMER(100));
 
 	unsigned int fpsLast = 0;
 	int fpsCount = 0;
