@@ -21,8 +21,6 @@
 #include <string>
 #include <vector>
 
-using namespace std;
-
 ResourceLocator<Level> levelLocator;
 
 #ifndef DEDSERV
@@ -471,12 +469,12 @@ void Level::setName(const std::string& _name)
 	name = _name;
 }
 
-const string& Level::getPath()
+const std::string& Level::getPath()
 {
 	return path;
 }
 
-const string& Level::getName()
+const std::string& Level::getName()
 {
 	return name;
 }

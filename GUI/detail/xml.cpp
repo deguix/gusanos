@@ -12,8 +12,6 @@
 #include "luaapi/types.h"
 #include "luaapi/context.h"
 
-using namespace std;
-
 namespace OmfgGUI
 {
 	
@@ -28,7 +26,7 @@ struct GSSHandler
 	
 	void error(std::string err)
 	{
-		cout << err << endl;
+		std::cout << err << endl;
 	}
 	
 	void selector(std::string const& tagLabel, std::string const& className, std::string const& id, std::string const& state

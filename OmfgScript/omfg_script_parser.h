@@ -42,7 +42,7 @@ NEWLINE : [\r\n]* ;
 event<> = ON IDENT<name> LPARAN [parameters] RPARAN NEWLINE action* ;
 */
 
-#define D(x) (cout << x << std::endl)
+#define D(x) (std::cout << x << std::endl)
 
 namespace OmfgScript{
 template<class T>

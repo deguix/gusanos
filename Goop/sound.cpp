@@ -18,9 +18,7 @@ namespace fs = boost::filesystem;
 #include <fmod.hpp>
 #include <fmod_errors.h>
 
-using namespace std;
-
-//		console.addLogMsg(string("* FMOD ERROR ") + FMOD_ErrorString(fmod_result));
+//		console.addLogMsg(std::string("* FMOD ERROR ") + FMOD_ErrorString(fmod_result));
 
 #define FMOD_ERROR_CHECK \
 	if (sfx.fmod_result != FMOD_OK) { \

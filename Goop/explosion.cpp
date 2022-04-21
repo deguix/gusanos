@@ -20,8 +20,6 @@
 
 #include <vector>
 
-using namespace std;
-
 Explosion::Explosion(ExpType *type, const Vec& _pos, BasePlayer* owner) : BaseObject(owner)
 {
 	pos = _pos;
@@ -52,7 +50,7 @@ Explosion::Explosion(ExpType *type, const Vec& _pos, BasePlayer* owner) : BaseOb
 		type->creation->run(this);
 	}
 
-	for ( vector< DetectEvent* >::iterator t = type->detectRanges.begin(); t != type->detectRanges.end(); ++t )
+	for ( std::vector< DetectEvent* >::iterator t = type->detectRanges.begin(); t != type->detectRanges.end(); ++t )
 	{
 		(*t)->check(this);
 	}

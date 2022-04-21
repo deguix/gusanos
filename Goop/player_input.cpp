@@ -15,9 +15,7 @@
 #include <list>
 #include <vector>
 
-using namespace std;
-
-string eventStart(size_t index, Player::Actions action, list<string> const& args)
+std::string eventStart(size_t index, Player::Actions action, std::list<std::string> const& args)
 {
 	if ( index < game.localPlayers.size() )
 	{
@@ -47,7 +45,7 @@ string eventStart(size_t index, Player::Actions action, list<string> const& args
 	return "";
 }
 
-string eventStop(size_t index, Player::Actions action, list<string> const& args)
+std::string eventStop(size_t index, Player::Actions action, std::list<std::string> const& args)
 {
 	if ( index < game.localPlayers.size() )
 	{
@@ -98,7 +96,7 @@ void registerPlayerInput()
 		("SAY", say);
 }
 
-string say( const list<string> &args )
+std::string say( const std::list<std::string> &args )
 {
 	if ( !args.empty() )
 	{

@@ -24,8 +24,6 @@ using namespace boost::assign;
 #include <list>
 #include <stdexcept>
 
-using namespace std;
-
 Gfx gfx;
 
 namespace
@@ -58,22 +56,22 @@ namespace
 	BITMAP* m_doubleResBuffer = 0;
 	SpriteSet* mouseCursor = 0;
 	
-	string screenShot(const list<string> &args)
+	std::string screenShot(const std::list<std::string> &args)
 	{
 		int nameIndex = 0;
 		
 	#ifdef GLIPTIC_SCREENSHOT_HAX
-		string filename;
+		std::string filename;
 		do
 		{
-			filename = "/usr/local/htdocs/stuff/gusanos-screens/ss" + cast<string>(nameIndex) + ".png";
+			filename = "/usr/local/htdocs/stuff/gusanos-screens/ss" + cast<std::string>(nameIndex) + ".png";
 			++nameIndex;
 		} while( exists( filename.c_str() ) );
 	#else
-		string filename;
+		std::string filename;
 		do
 		{
-			string ssIndex = cast<string>(nameIndex);
+			std::string ssIndex = cast<std::string>(nameIndex);
 			while ( ssIndex.size() < 3 )
 			{
 				ssIndex = "0" + ssIndex;
@@ -730,7 +728,7 @@ int Gfx::getScalingFactor()
 
 #endif
 
-BITMAP* Gfx::loadBitmap( const string& filename, RGB* palette, bool keepAlpha )
+BITMAP* Gfx::loadBitmap( const std::string& filename, RGB* palette, bool keepAlpha )
 {
 	BITMAP* returnValue = NULL;
 	
@@ -762,7 +760,7 @@ BITMAP* Gfx::loadBitmap( const string& filename, RGB* palette, bool keepAlpha )
 	}
 	else
 	{
-		string tmp = filename;
+		std::string tmp = filename;
 		tmp += ".png";
 		if ( exists( tmp.c_str() ) )
 		{
@@ -795,7 +793,7 @@ BITMAP* Gfx::loadBitmap( const string& filename, RGB* palette, bool keepAlpha )
 	return returnValue;
 }
 
-bool Gfx::saveBitmap( const string &filename,BITMAP* image, RGB* palette )
+bool Gfx::saveBitmap( const std::string &filename,BITMAP* image, RGB* palette )
 {
 	bool returnValue = false;
 	

@@ -3,28 +3,26 @@
 #include <vector>
 #include <string>
 
-using namespace std;
-
 namespace Parser
 {
 	
-	const vector<string> tokenize(const string &text)
+	const std::vector<std::string> tokenize(const std::string &text)
 	{
 		size_t left = 0;
 		size_t right = 0;
 	
-		string lastChar = " ";
+		std::string lastChar = " ";
 		
-		vector<string> stringList;
+		std::vector<std::string> stringList;
 		
-		while (right != string::npos)
+		while (right != std::string::npos)
 		{
 			left = text.find_first_not_of(lastChar, right);
 			
-			if (left != string::npos)
+			if (left != std::string::npos)
 			{
 				right = text.find_first_of(", =()",left);
-				if (right != string::npos)
+				if (right != std::string::npos)
 				{
 					lastChar = text[right];
 					
@@ -39,20 +37,20 @@ namespace Parser
 				stringList.push_back( text.substr(left) );
 			}
 			else
-				right = string::npos;
+				right = std::string::npos;
 		}
 		
 		return stringList;
 	}
 	
 	// May the god of inderdaad forgive me for this sin :(
-	int identifyLine( const vector<string> & tokens )
+	int identifyLine( const std::vector<std::string> & tokens )
 	{
 		int id = INVALID;
 		
 		if ( tokens.size() > 1 )
 		{
-			vector<string>::const_iterator token = tokens.begin();
+			std::vector<std::string>::const_iterator token = tokens.begin();
 			
 			if( (*token)[0] == '#' ) // Is it a comment?
 				return INVALID;
@@ -88,11 +86,11 @@ namespace Parser
 		return id;
 	}
 	
-	vector<string> getActionParams( const vector<string> & tokens )
+	std::vector<std::string> getActionParams( const std::vector<std::string> & tokens )
 	{
-		vector<string>::const_iterator token = tokens.begin();
+		std::vector<std::string>::const_iterator token = tokens.begin();
 		
-		vector<string> params;
+		std::vector<std::string> params;
 		
 		if( tokens.size() > 3 )
 		{

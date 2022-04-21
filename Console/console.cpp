@@ -19,8 +19,6 @@
 #include <iostream>
 #include <algorithm>
 
-using namespace std;
-
 /////////////////////////////// Console //////////////////////////////////////
 
 //============================= LIFECYCLE ====================================
@@ -43,7 +41,7 @@ Console::~Console()
 {
 	// Delete the registered variables
 /*
-	map<string, ConsoleItem*>::iterator tempvar = items.begin();
+	std::map<std::string, ConsoleItem*>::iterator tempvar = items.begin();
 	while (tempvar != items.end())
 	{
 		delete tempvar->second;
@@ -68,7 +66,7 @@ void Console::registerItem(std::string const& name, ConsoleItem* item)
 
 void Console::registerVariable(Variable* var)
 {
-	string const& name = var->getName();
+	std::string const& name = var->getName();
 	if (!name.empty())
 	{
 		std::map<std::string, ConsoleItem*, IStrCompare>::iterator i = items.find(name);
@@ -177,7 +175,7 @@ struct TestHandler : public ConsoleGrammarBase
 	bool parseRelease;
 };
 
-void Console::parseLine(const string &text, bool parseRelease)
+void Console::parseLine(const std::string &text, bool parseRelease)
 {
 	std::istringstream ss(text);
 	ConsoleGrammar<TestHandler> handler((TestHandler(ss, *this, parseRelease)));
@@ -197,12 +195,12 @@ void Console::parseLine(const string &text, bool parseRelease)
 		}
 		else
 		{
-			addLogMsg(error.what() + string(" at end of input"));
+			addLogMsg(error.what() + std::string(" at end of input"));
 		}
 	}
 }
 
-std::string Console::invoke(string const& name, list<string> const& args, bool parseRelease)
+std::string Console::invoke(std::string const& name, std::list<std::string> const& args, bool parseRelease)
 {
 	if(!parseRelease || name[0] == '+')
 	{
@@ -210,7 +208,7 @@ std::string Console::invoke(string const& name, list<string> const& args, bool p
 		if(parseRelease)
 			nameCopy[0] = '-';
 
-		map<string, ConsoleItem*>::iterator tempItem = items.find(nameCopy);
+		std::map<std::string, ConsoleItem*>::iterator tempItem = items.find(nameCopy);
 		if (tempItem != items.end())
 		{
 			return tempItem->second->invoke(args);
@@ -222,11 +220,11 @@ std::string Console::invoke(string const& name, list<string> const& args, bool p
 }
 
 /*
-void Console::parse(list<string> &args, bool parseRelease)
+void Console::parse(std::list<std::string> &args, bool parseRelease)
 {
-	string itemName;
-	string arguments;
-	string retString;
+	std::string itemName;
+	std::string arguments;
+	std::string retString;
 	
 	if (!args.empty())
 	{
@@ -234,7 +232,7 @@ void Console::parse(list<string> &args, bool parseRelease)
 		if ( !parseRelease || (itemName[0] == '+') )
 		{
 			if (parseRelease) itemName[0]='-';
-			map<string, ConsoleItem*>::iterator tempItem = items.find(itemName);
+			std::map<std::string, ConsoleItem*>::iterator tempItem = items.find(itemName);
 			if (tempItem != items.end())
 			{
 				args.pop_front();
@@ -249,7 +247,7 @@ void Console::parse(list<string> &args, bool parseRelease)
 }
 */
 
-void Console::addLogMsg(const string &msg)
+void Console::addLogMsg(const std::string &msg)
 {
 	if (!msg.empty())
 	{
@@ -268,7 +266,7 @@ void Console::analizeKeyEvent(bool state, char key)
 		parseLine(bindTable.getBindingAction(key), true);
 }
 
-void Console::bind(char key, const string &action)
+void Console::bind(char key, const std::string &action)
 {
 	bindTable.bind(key , action);
 }
@@ -283,13 +281,13 @@ std::string Console::getActionForBinding(char key)
 	return bindTable.getBindingAction(key);
 }
 
-int Console::executeConfig(const string &filename)
+int Console::executeConfig(const std::string &filename)
 {
-	ifstream file(filename.c_str());
+	std::ifstream file(filename.c_str());
 
 	if (file.is_open() && file.good())
 	{
-		string text2Parse;
+		std::string text2Parse;
 		//...parse the file
 		while (portable_getline(file, text2Parse))
 		{
@@ -313,7 +311,7 @@ struct CompletionHandler : public ConsoleGrammarBase
 		{
 		}
 		
-		State(string::const_iterator b_)
+		State(std::string::const_iterator b_)
 		: argumentIdx(0), commandComplete(false), argumentComplete(false)
 		, beginCommand(b_), beginArgument(b_)
 		{
@@ -323,14 +321,14 @@ struct CompletionHandler : public ConsoleGrammarBase
 		bool argumentComplete;
 		std::string command;
 		std::string argument;
-		string::const_iterator beginArgument;
-		string::const_iterator beginCommand;
+		std::string::const_iterator beginArgument;
+		std::string::const_iterator beginCommand;
 		int argumentIdx;
 	};
 		
 	CompletionHandler(
-		string::const_iterator b_,
-		string::const_iterator e_,
+		std::string::const_iterator b_,
+		std::string::const_iterator e_,
 		Console& console_
 	)
 	: b(b_), e(e_), console(console_), current(b_), endPrefix(b_)
@@ -416,10 +414,10 @@ struct CompletionHandler : public ConsoleGrammarBase
 	}
 
 	int c;
-	string::const_iterator beginPrefix;
-	string::const_iterator b;
-	string::const_iterator e;
-	string::const_iterator endPrefix;
+	std::string::const_iterator beginPrefix;
+	std::string::const_iterator b;
+	std::string::const_iterator e;
+	std::string::const_iterator endPrefix;
 	
 	State current;
 	std::stack<State> states;
@@ -441,9 +439,9 @@ std::string Console::completeCommand(std::string const& b)
 		, ItemGetText(), ConsoleAddLines(*this));
 }
 
-string Console::autoComplete(string const& text)
+std::string Console::autoComplete(std::string const& text)
 {
-	string returnText = text;
+	std::string returnText = text;
 	
 	if ( !text.empty() )
 	{
@@ -480,16 +478,16 @@ string Console::autoComplete(string const& text)
 	return text;
 }
 
-void Console::listItems(const string &text)
+void Console::listItems(const std::string &text)
 {
 	if ( !text.empty() )
 	{
 		// Find the first item that matches that text
-		map<string, ConsoleItem*>::iterator item = items.lower_bound( text ); 
+		std::map<std::string, ConsoleItem*>::iterator item = items.lower_bound( text ); 
 		if( item != items.end() && text == item->first.substr(0, text.length()) ) // If found
 		{
 			// Temp item to check if there is only 1 item matching the given text
-			map<string, ConsoleItem*>::iterator tempItem = item; 
+			std::map<std::string, ConsoleItem*>::iterator tempItem = item; 
 			tempItem++;
 			
 			// If the temp item is equal to the first item found it means that there are more than 1 items that match

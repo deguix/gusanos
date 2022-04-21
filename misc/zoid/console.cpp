@@ -574,7 +574,7 @@ void console::input()
 
 void execute_config()
 {
-	ifstream fbuf;
+	std::ifstream fbuf;
 	std::string tmp_str;
   tmp_str=game->mod;
   tmp_str+="/";

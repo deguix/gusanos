@@ -1,7 +1,5 @@
 #include "special_command.h"
 
-using namespace std;
-
 ///////////////////////////////IntVariable////////////////////////////////
 
 //============================= LIFECYCLE ================================
@@ -23,7 +21,7 @@ SpecialCommand::SpecialCommand(int index, std::string (*func)( int, const std::l
 
 //============================= INTERFACE ================================
 
-string SpecialCommand::invoke( const std::list<std::string> &args)
+std::string SpecialCommand::invoke( const std::list<std::string> &args)
 {
 	return m_func(m_index, args);
 }

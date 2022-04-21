@@ -16,8 +16,6 @@ namespace fs = boost::filesystem;
 
 #include <fmod.hpp>
 
-using namespace std;
-
 #define FMOD_ERROR_CHECK \
 	if (sfx.fmod_result != FMOD_OK) { \
 		cerr << "* FMOD ERROR " << FMOD_ErrorString(sfx.fmod_result) << endl; \

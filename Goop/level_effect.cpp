@@ -19,8 +19,6 @@
 #include <boost/filesystem/fstream.hpp>
 namespace fs = boost::filesystem;
 
-using namespace std;
-
 ResourceList<LevelEffect> levelEffectList;
 
 LevelEffect::LevelEffect()

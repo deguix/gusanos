@@ -17,8 +17,6 @@ namespace fs = boost::filesystem;
 #include "blitters/context.h"
 #endif
 
-using namespace std;
-
 ResourceList<SpriteSet> spriteList;
 
 SpriteSet::SpriteSet()

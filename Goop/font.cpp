@@ -12,8 +12,6 @@
 #include <utility>
 #include <iostream>
 
-using namespace std;
-
 array<Font::Color, 16> Font::palette =
 {
 	Color(255, 255, 255), //0
@@ -46,7 +44,7 @@ Font::Font()
 Font::~Font()
 {
 	/*
-	vector<BITMAP*>::iterator iter = m_char.begin();
+	std::vector<BITMAP*>::iterator iter = m_char.begin();
 	while (iter != m_char.end())
 	{
 		destroy_bitmap(*iter);
@@ -79,7 +77,7 @@ Font::CharInfo* Font::lookupChar(char c)
 	return &m_chars[idx];
 }
 
-void Font::draw( BITMAP* where, string::const_iterator b, string::const_iterator e, int x, int y, CharFormatting& format, int spacing, int fact, int flags)
+void Font::draw( BITMAP* where, std::string::const_iterator b, std::string::const_iterator e, int x, int y, CharFormatting& format, int spacing, int fact, int flags)
 {
 	for(; b != e; ++b)
 	{
@@ -108,7 +106,7 @@ void Font::draw( BITMAP* where, string::const_iterator b, string::const_iterator
 }
 
 /*
-void Font::drawFormatted( BITMAP* where, string::const_iterator b, string::const_iterator e, int x, int y, int spacing, int fact, int flags)
+void Font::drawFormatted( BITMAP* where, std::string::const_iterator b, std::string::const_iterator e, int x, int y, int spacing, int fact, int flags)
 {
 	for(; b != e; ++b)
 	{
@@ -130,12 +128,12 @@ void Font::drawFormatted( BITMAP* where, string::const_iterator b, string::const
 	}
 }*/
 
-pair<int, int> Font::getDimensions(std::string const& text, int spacing, int flags)
+std::pair<int, int> Font::getDimensions(std::string const& text, int spacing, int flags)
 {
 	return getDimensions(text.begin(), text.end(), spacing, flags);
 }
 
-pair<int, int> Font::getDimensions(std::string::const_iterator b, std::string::const_iterator e, int spacing, int flags)
+std::pair<int, int> Font::getDimensions(std::string::const_iterator b, std::string::const_iterator e, int spacing, int flags)
 {
 	if(b == e)
 		return zeroDimensions();
@@ -163,7 +161,7 @@ pair<int, int> Font::getDimensions(std::string::const_iterator b, std::string::c
 			while(skipFormatting(b, e))
 			{
 				if(b == e)
-					return make_pair(w, h);
+					return std::make_pair(w, h);
 			}
 		}
 		c = lookupChar(*b);
@@ -172,7 +170,7 @@ pair<int, int> Font::getDimensions(std::string::const_iterator b, std::string::c
 			h = c->height;
 	}
 	
-	return make_pair(w, h);
+	return std::make_pair(w, h);
 }
 
 int Font::getTextCoordToIndex(std::string::const_iterator b, std::string::const_iterator e, int x, int spacing, int flags)
@@ -206,12 +204,12 @@ int Font::getTextCoordToIndex(std::string::const_iterator b, std::string::const_
 }
 
 /*
-pair<int, int> Font::getFormattedDimensions(std::string const& text, int spacing)
+std::pair<int, int> Font::getFormattedDimensions(std::string const& text, int spacing)
 {
 	return getFormattedDimensions(text.begin(), text.end(), spacing);
 }
 
-pair<int, int> Font::getFormattedDimensions(std::string::const_iterator b, std::string::const_iterator e, int spacing)
+std::pair<int, int> Font::getFormattedDimensions(std::string::const_iterator b, std::string::const_iterator e, int spacing)
 {
 	if(b == e)
 		return zeroDimensions();
@@ -233,7 +231,7 @@ pair<int, int> Font::getFormattedDimensions(std::string::const_iterator b, std::
 		while(skipFormatting(b, e))
 		{
 			if(b == e)
-				return make_pair(w, h);
+				return std::make_pair(w, h);
 		}
 		c = lookupChar(*b);
 		w += c->width;
@@ -241,15 +239,15 @@ pair<int, int> Font::getFormattedDimensions(std::string::const_iterator b, std::
 			h = c->height;
 	}
 	
-	return make_pair(w, h);
+	return std::make_pair(w, h);
 }*/
 
-pair<int, int> Font::zeroDimensions()
+std::pair<int, int> Font::zeroDimensions()
 {
-	return make_pair(0, 0);
+	return std::make_pair(0, 0);
 }
 
-void Font::incrementDimensions(pair<int, int>& dim, char ch, int spacing)
+void Font::incrementDimensions(std::pair<int, int>& dim, char ch, int spacing)
 {
 	CharInfo *c = lookupChar(ch);
 	dim.first += c->width + c->spacing + spacing;
@@ -258,7 +256,7 @@ void Font::incrementDimensions(pair<int, int>& dim, char ch, int spacing)
 		dim.second = c->height;
 }
 
-void Font::removeSpacing(pair<int, int>& dim, char ch, int spacing)
+void Font::removeSpacing(std::pair<int, int>& dim, char ch, int spacing)
 {
 	CharInfo *c = lookupChar(ch);
 	dim.first -= c->spacing + spacing;

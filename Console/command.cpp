@@ -1,7 +1,5 @@
 #include "command.h"
 
-using namespace std;
-
 ///////////////////////////////IntVariable////////////////////////////////
 
 //============================= LIFECYCLE ================================
@@ -23,7 +21,7 @@ Command::Command(CallbackT const& func, CompleteCallbackT const& completeFunc)
 
 //============================= INTERFACE ================================
 
-string Command::invoke(std::list<std::string> const& args)
+std::string Command::invoke(std::list<std::string> const& args)
 {
 	return m_func(args);
 }

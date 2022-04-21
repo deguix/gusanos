@@ -699,7 +699,7 @@ int main(int argc, char const* argv[])
 {
 	if(argc < 3)
 	{
-		cout << "Usage: parsergen <source> <target>\n";
+		std::cout << "Usage: parsergen <source> <target>\n";
 		return 0;
 	}
 	
@@ -711,7 +711,7 @@ int main(int argc, char const* argv[])
 		
 		
 		handler.rules();
-		cout << "Parsed file" << endl;
+		std::cout << "Parsed file" << endl;
 		std::ofstream o(argv[2]);
 		handler.output(o, "TGrammar");
 	}

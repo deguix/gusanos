@@ -220,7 +220,7 @@ void Wnd::applyGSSstate(Context::GSSselectors const& style, std::string const& s
 
 void Wnd::applyGSS(Context::GSSselectors const& style)
 {
-	//cout << "Context: " << m_context << endl;
+	//std::cout << "Context: " << m_context << endl;
 	if(m_active)
 		m_state = "active";
 	else if(isFocused())
@@ -240,7 +240,7 @@ void Wnd::applyFormatting(Context::GSSpropertyMap const& f)
 	
 	for(Context::GSSpropertyMap::const_iterator i = f.begin(); i != f.end(); ++i)
 	{
-		//cout << "Applying to " << m_id << ": " << i->first << endl;
+		//std::cout << "Applying to " << m_id << ": " << i->first << endl;
 		if(i->first == "background")
 		{
 			EACH_VALUE(v)

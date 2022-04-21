@@ -16,8 +16,6 @@
 
 #include <vector>
 
-using namespace std;
-
 NinjaRope::NinjaRope(PartType *type, BaseObject* worm)
 : m_worm(worm)
 {
@@ -37,7 +35,7 @@ NinjaRope::NinjaRope(PartType *type, BaseObject* worm)
 #endif
 		
 	// Why this?? :OO // Re: Modders may want to make the rope leave trails or sth :o
-	//for ( vector< TimerEvent* >::iterator i = m_type->timer.begin(); i != m_type->timer.end(); i++)
+	//for ( std::vector< TimerEvent* >::iterator i = m_type->timer.begin(); i != m_type->timer.end(); i++)
 	foreach(i, m_type->timer)
 	{
 		timer.push_back( (*i)->createState() );
@@ -57,7 +55,7 @@ void NinjaRope::shoot(Vec _pos, Vec _spd)
 	m_angle = spd.getAngle();
 	m_angleSpeed = 0;
 	
-	//for ( vector< TimerEvent::State >::iterator t = timer.begin(); t != timer.end(); t++)
+	//for ( std::vector< TimerEvent::State >::iterator t = timer.begin(); t != timer.end(); t++)
 	foreach(t, timer)
 	{
 		t->reset();
@@ -163,7 +161,7 @@ void NinjaRope::think()
 		{
 			spd.y+=m_type->gravity;
 			
-			for ( vector< NRTimer >::iterator t = timer.begin(); t != timer.end(); t++)
+			for ( std::vector< NRTimer >::iterator t = timer.begin(); t != timer.end(); t++)
 			{
 				(*t).count--;
 				if ( (*t).count < 0 )

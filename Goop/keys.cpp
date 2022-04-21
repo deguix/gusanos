@@ -8,12 +8,10 @@
 #include <allegro.h>
 #include <boost/static_assert.hpp>
 
-using namespace std;
-
 BOOST_STATIC_ASSERT(KEY_MAX == 127);
 BOOST_STATIC_ASSERT(KEY_CAPSLOCK == 126);
 
-int kName2Int(const string &name)
+int kName2Int(const std::string &name)
 {
 	for (int i = 0; i < KEY_MAX; ++i)
 	{

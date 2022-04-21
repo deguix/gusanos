@@ -307,7 +307,7 @@ int LuaContext::evalExpression(std::string const& chunk, istream& stream)
 }
 
 /*
-void LuaContext::load(std::string const& chunk, istream& stream, string const& table)
+void LuaContext::load(std::string const& chunk, istream& stream, std::string const& table)
 {
 	lua_pushcfunction(m_State, errorReport);
 	int result = lua_load(m_State, istreamChunkReader, &stream, chunk.c_str());

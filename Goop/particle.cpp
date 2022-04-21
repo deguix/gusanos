@@ -32,8 +32,6 @@
 #define BOOST_NO_MT
 #include <boost/pool/pool.hpp>
 
-using namespace std;
-
 namespace
 {
 
@@ -152,7 +150,7 @@ Particle::Particle(PartType *type, Vec pos_, Vec spd_, int dir, BasePlayer* owne
 			return;
 	}
 	
-	//for ( vector< TimerEvent* >::iterator i = m_type->timer.begin(); i != m_type->timer.end(); i++)
+	//for ( std::vector< TimerEvent* >::iterator i = m_type->timer.begin(); i != m_type->timer.end(); i++)
 	foreach(i, m_type->timer)
 	{
 		timer.push_back( (*i)->createState() );
@@ -393,14 +391,14 @@ void Particle::think()
 #endif
 		}
 
-		//for ( vector< DetectEvent* >::iterator t = m_type->detectRanges.begin(); t != m_type->detectRanges.end(); ++t )
+		//for ( std::vector< DetectEvent* >::iterator t = m_type->detectRanges.begin(); t != m_type->detectRanges.end(); ++t )
 		foreach(t, m_type->detectRanges)
 		{
 			(*t)->check(this);
 		}
 		if ( deleteMe ) break;
 		
-		//for ( vector< TimerEvent::State* >::iterator t = timer.begin(); t != timer.end(); t++)
+		//for ( std::vector< TimerEvent::State* >::iterator t = timer.begin(); t != timer.end(); t++)
 		foreach(t, timer)
 		{
 			if ( t->tick() )

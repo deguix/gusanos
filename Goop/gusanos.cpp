@@ -46,8 +46,6 @@
 #include <unistd.h>
 #endif
 
-using namespace std;
-
 bool quit = false;
 int showFps;
 int showDebug;
@@ -62,7 +60,7 @@ void exit()
 	network.disconnect();
 }
 
-string exitCmd(list<string> const& args)
+std::string exitCmd(std::list<std::string> const& args)
 {
 	exit();
 	return "";
@@ -156,7 +154,7 @@ try
 				}
 #endif
 				
-				for ( list<BasePlayer*>::iterator iter = game.players.begin(); iter != game.players.end(); iter++)
+				for ( std::list<BasePlayer*>::iterator iter = game.players.begin(); iter != game.players.end(); iter++)
 				{
 					(*iter)->think();
 				}
@@ -169,7 +167,7 @@ try
 			sfx.think(); // WARNING: THIS ¡MUST! BE PLACED BEFORE THE OBJECT DELETE LOOP
 #endif
 			
-			//for ( list<BasePlayer*>::iterator iter = game.players.begin(); iter != game.players.end();)
+			//for ( std::list<BasePlayer*>::iterator iter = game.players.begin(); iter != game.players.end();)
 			foreach_delete(iter, game.players)
 			{
 				if ( (*iter)->deleteMe )
@@ -242,14 +240,14 @@ try
 			fpsCount = 0;
 			fpsLast = timer;
 			
-			//console.addLogMsg(cast<string>(fps));
+			//console.addLogMsg(cast<std::string>(fps));
 		}
 
 
 		if ( game.isLoaded() && game.level.isLoaded() )
 		{
 
-			for ( list<BasePlayer*>::iterator iter = game.players.begin(); iter != game.players.end(); iter++)
+			for ( std::list<BasePlayer*>::iterator iter = game.players.begin(); iter != game.players.end(); iter++)
 			{
 				(*iter)->render();
 			}
@@ -257,10 +255,10 @@ try
 			//debug info
 			if (showDebug)
 			{
-				game.infoFont->draw(gfx.buffer, "OBJECTS: \01303" + cast<string>(game.objects.size()), 5, 10, 0, 255, 255, 255, 255, Font::Formatting);
-				game.infoFont->draw(gfx.buffer, "PLAYERS: \01303" + cast<string>(game.players.size()), 5, 15, 0, 255, 255, 255, 255, Font::Formatting);
-				game.infoFont->draw(gfx.buffer, "PING:    \01303" + cast<string>(network.getServerPing()), 5, 20, 0, 255, 255, 255, 255, Font::Formatting);
-				game.infoFont->draw(gfx.buffer, "LUA MEM: \01303" + cast<string>(lua_gc(lua, LUA_GCCOUNT, 0)), 5, 25, 0, 255, 255, 255, 255, Font::Formatting);
+				game.infoFont->draw(gfx.buffer, "OBJECTS: \01303" + cast<std::string>(game.objects.size()), 5, 10, 0, 255, 255, 255, 255, Font::Formatting);
+				game.infoFont->draw(gfx.buffer, "PLAYERS: \01303" + cast<std::string>(game.players.size()), 5, 15, 0, 255, 255, 255, 255, Font::Formatting);
+				game.infoFont->draw(gfx.buffer, "PING:    \01303" + cast<std::string>(network.getServerPing()), 5, 20, 0, 255, 255, 255, 255, Font::Formatting);
+				game.infoFont->draw(gfx.buffer, "LUA MEM: \01303" + cast<std::string>(lua_gc(lua, LUA_GCCOUNT, 0)), 5, 25, 0, 255, 255, 255, 255, Font::Formatting);
 			}
 						
 			int miny = 150;
@@ -276,11 +274,11 @@ try
 			{
 				ScreenMessage const& msg = *rmsgiter;
 				
-				string::const_iterator b = msg.str.begin(), e = msg.str.end(), n;
+				std::string::const_iterator b = msg.str.begin(), e = msg.str.end(), n;
 				
 				do
 				{
-					pair<int, int> dim;
+					std::pair<int, int> dim;
 					n = game.infoFont->fitString(b, e, maxw, dim, 0, Font::Formatting);
 					if(n == b)
 						break;
@@ -301,7 +299,7 @@ try
 			{
 				ScreenMessage const& msg = *msgiter;
 				
-				string::const_iterator b = msg.str.begin(), e = msg.str.end(), n;
+				std::string::const_iterator b = msg.str.begin(), e = msg.str.end(), n;
 				
 				int fact = 255;
 				if(msg.timeOut < 100)
@@ -321,7 +319,7 @@ try
 				
 				do
 				{
-					pair<int, int> dim;
+					std::pair<int, int> dim;
 					n = game.infoFont->fitString(b, e, maxw, dim, 0, Font::Formatting);
 					if(n == b)
 						break;
@@ -341,7 +339,7 @@ try
 		//show fps
 		if (showFps)
 		{
-			game.infoFont->draw(gfx.buffer, "FPS: \01303" + cast<string>(fps), 5, 5, 0, 255, 255, 255, 255, Font::Formatting);
+			game.infoFont->draw(gfx.buffer, "FPS: \01303" + cast<std::string>(fps), 5, 5, 0, 255, 255, 255, 255, Font::Formatting);
 		}
 		fpsCount++;
 		

@@ -26,12 +26,10 @@
 
 #include "omfg_script.h"
 
-using namespace std;
-
 OmfgScript::ActionFactory gameActions;
 
 template<class T>
-BaseAction* newAction(vector<OmfgScript::TokenBase*> const& params )
+BaseAction* newAction(std::vector<OmfgScript::TokenBase*> const& params )
 {
 	return new T(params);
 }
@@ -168,7 +166,7 @@ void registerGameActions()
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-ShootParticles::ShootParticles( vector<OmfgScript::TokenBase*> const& params )
+ShootParticles::ShootParticles( std::vector<OmfgScript::TokenBase*> const& params )
 {
 	type = partTypeList.load(params[0]->toString());
 	amount = params[1]->toInt(1);
@@ -215,7 +213,7 @@ ShootParticles::~ShootParticles()
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-UniformShootParticles::UniformShootParticles( vector<OmfgScript::TokenBase*> const& params )
+UniformShootParticles::UniformShootParticles( std::vector<OmfgScript::TokenBase*> const& params )
 {
 	type = partTypeList.load(params[0]->toString());
 	amount = params[1]->toInt(1);
@@ -263,7 +261,7 @@ UniformShootParticles::~UniformShootParticles()
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-PutParticle::PutParticle( vector<OmfgScript::TokenBase*> const& params )
+PutParticle::PutParticle( std::vector<OmfgScript::TokenBase*> const& params )
 {
 	type = partTypeList.load(params[0]->toString());
 	x = params[1]->toDouble();
@@ -289,7 +287,7 @@ PutParticle::~PutParticle()
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-CreateExplosion::CreateExplosion( vector<OmfgScript::TokenBase*> const& params )
+CreateExplosion::CreateExplosion( std::vector<OmfgScript::TokenBase*> const& params )
 {
 	type = expTypeList.load(params[0]->toString());
 }
@@ -310,7 +308,7 @@ CreateExplosion::~CreateExplosion()
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-Push::Push( vector<OmfgScript::TokenBase*> const& params )
+Push::Push( std::vector<OmfgScript::TokenBase*> const& params )
 {
 	factor = params[0]->toDouble(0.0);
 }
@@ -328,7 +326,7 @@ Push::~Push()
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-Repel::Repel( vector<OmfgScript::TokenBase*> const& params )
+Repel::Repel( std::vector<OmfgScript::TokenBase*> const& params )
 {
 	// Sensible defaults?
 	maxForce = params[0]->toDouble(0.0);
@@ -366,7 +364,7 @@ Repel::~Repel()
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-Damp::Damp( vector<OmfgScript::TokenBase*> const& params )
+Damp::Damp( std::vector<OmfgScript::TokenBase*> const& params )
 {
 	factor = params[0]->toDouble(0.0);
 }
@@ -384,7 +382,7 @@ Damp::~Damp()
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-Damage::Damage( vector<OmfgScript::TokenBase*> const& params )
+Damage::Damage( std::vector<OmfgScript::TokenBase*> const& params )
 {
 	m_damage = params[0]->toDouble(0.0);
 	m_damageVariation = params[1]->toDouble(0.0);
@@ -413,7 +411,7 @@ Damage::~Damage()
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-Remove::Remove( vector<OmfgScript::TokenBase*> const& params )
+Remove::Remove( std::vector<OmfgScript::TokenBase*> const& params )
 {
 }
 
@@ -430,7 +428,7 @@ Remove::~Remove()
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-PlaySound::PlaySound( vector<OmfgScript::TokenBase*> const& params )
+PlaySound::PlaySound( std::vector<OmfgScript::TokenBase*> const& params )
 {
 #ifndef DEDSERV
 	if ( params[0]->isString() )
@@ -472,7 +470,7 @@ PlaySound::~PlaySound()
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-PlaySoundStatic::PlaySoundStatic( vector<OmfgScript::TokenBase*> const& params )
+PlaySoundStatic::PlaySoundStatic( std::vector<OmfgScript::TokenBase*> const& params )
 {
 #ifndef DEDSERV
 	if ( params[0]->isString() )
@@ -515,7 +513,7 @@ PlaySoundStatic::~PlaySoundStatic()
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-PlayGlobalSound::PlayGlobalSound( vector<OmfgScript::TokenBase*> const& params )
+PlayGlobalSound::PlayGlobalSound( std::vector<OmfgScript::TokenBase*> const& params )
 {
 #ifndef DEDSERV
 	if ( params[0]->isString() )
@@ -558,7 +556,7 @@ PlayGlobalSound::~PlayGlobalSound()
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-DelayFire::DelayFire( vector<OmfgScript::TokenBase*> const& params )
+DelayFire::DelayFire( std::vector<OmfgScript::TokenBase*> const& params )
 {
 	delayTime = params[0]->toInt(0);
 	delayTimeVariation = params[1]->toInt(0);
@@ -580,7 +578,7 @@ DelayFire::~DelayFire()
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-UseAmmo::UseAmmo( vector<OmfgScript::TokenBase*> const& params )
+UseAmmo::UseAmmo( std::vector<OmfgScript::TokenBase*> const& params )
 {
 	amount = params[0]->toInt(1);
 }
@@ -601,7 +599,7 @@ UseAmmo::~UseAmmo()
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-ShowFirecone::ShowFirecone( vector<OmfgScript::TokenBase*> const& params )
+ShowFirecone::ShowFirecone( std::vector<OmfgScript::TokenBase*> const& params )
 {
 #ifndef DEDSERV
 	sprite = spriteList.load(params[0]->toString());
@@ -628,7 +626,7 @@ ShowFirecone::~ShowFirecone()
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-AddAngleSpeed::AddAngleSpeed( vector<OmfgScript::TokenBase*> const& params )
+AddAngleSpeed::AddAngleSpeed( std::vector<OmfgScript::TokenBase*> const& params )
 {
 	speed = AngleDiff(params[0]->toDouble(0.0));
 	speedVariation = AngleDiff(params[1]->toDouble(0.0));
@@ -650,7 +648,7 @@ AddAngleSpeed::~AddAngleSpeed()
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-AddSpeed::AddSpeed( vector<OmfgScript::TokenBase*> const& params )
+AddSpeed::AddSpeed( std::vector<OmfgScript::TokenBase*> const& params )
 {
 	speed = params[0]->toDouble(0.0);
 	speedVariation = params[1]->toDouble(0.0);
@@ -674,7 +672,7 @@ AddSpeed::~AddSpeed()
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-SetAlphaFade::SetAlphaFade( vector<OmfgScript::TokenBase*> const& params )
+SetAlphaFade::SetAlphaFade( std::vector<OmfgScript::TokenBase*> const& params )
 {
 	frames = params[0]->toInt(0);
 	dest = params[1]->toInt(0);
@@ -698,7 +696,7 @@ SetAlphaFade::~SetAlphaFade()
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-RunCustomEvent::RunCustomEvent( vector<OmfgScript::TokenBase*> const& params )
+RunCustomEvent::RunCustomEvent( std::vector<OmfgScript::TokenBase*> const& params )
 {
 	index = params[0]->toInt(0);
 }
@@ -720,7 +718,7 @@ RunCustomEvent::~RunCustomEvent()
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-RunScript::RunScript( vector<OmfgScript::TokenBase*> const& params )
+RunScript::RunScript( std::vector<OmfgScript::TokenBase*> const& params )
 //: function(0), scriptName(params[0]->toString())
 : script(params[0]->toString())
 {
@@ -786,7 +784,7 @@ RunScript::~RunScript()
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-ApplyMapEffect::ApplyMapEffect( vector<OmfgScript::TokenBase*> const& params )
+ApplyMapEffect::ApplyMapEffect( std::vector<OmfgScript::TokenBase*> const& params )
 {
 	effect = levelEffectList.load(params[0]->toString());
 }

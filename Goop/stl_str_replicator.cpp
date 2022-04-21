@@ -3,9 +3,7 @@
 #include <zoidcom.h>
 #include <string>
 
-using namespace std;
-
-STLStringReplicator::STLStringReplicator(ZCom_ReplicatorSetup *_setup, string *_data) : 
+STLStringReplicator::STLStringReplicator(ZCom_ReplicatorSetup *_setup, std::string *_data) : 
 	ZCom_ReplicatorBasic(_setup),
 	m_ptr(_data)
 {
@@ -39,7 +37,7 @@ void STLStringReplicator::unpackData(ZCom_BitStream *_stream, bool _store, zU32 
 void* STLStringReplicator::peekData()
 {
 	assert(getPeekStream());
-	string* retString = new string;
+	std::string* retString = new std::string;
 	*retString = getPeekStream()->getStringStatic();
 	
 	peekDataStore(retString);
@@ -49,7 +47,7 @@ void* STLStringReplicator::peekData()
 
 void STLStringReplicator::clearPeekData()
 {
-	string *buf = (string*) peekDataRetrieve();
+	std::string *buf = (std::string*) peekDataRetrieve();
 	if (buf) delete buf;
 };
 

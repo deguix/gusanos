@@ -98,7 +98,7 @@ void weap_list::sort()
 
 class weapon* load_weap(const char* weap_name)
 {
-	ifstream fbuf;
+	std::ifstream fbuf;
 	std::string tmp1,tmp2,tmp3;
 	std::string var,val;
 	int i;

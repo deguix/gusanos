@@ -298,7 +298,7 @@ Request* Host::query(
     	<< addHeader << "\015\012";
     }
     
-    //cout << "Returning request" << endl;
+    //std::cout << "Returning request" << endl;
 
     return new Request(s, ss.str(), data);
 }

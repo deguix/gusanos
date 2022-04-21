@@ -6,8 +6,6 @@
 #include <list>
 #include <allegro.h>
 
-using namespace std;
-
 PlayerOptions::PlayerOptions(std::string const& name_)
 : name(name_), m_nameChanged(false), m_colorChanged(false)
 , uniqueID(0), team(-1)
@@ -24,7 +22,7 @@ PlayerOptions::PlayerOptions(std::string const& name_)
 
 void PlayerOptions::registerInConsole(int index)
 {
-	std::string sindex = cast<string>(index);
+	std::string sindex = cast<std::string>(index);
 	
 	console.registerVariables()
 		("P" + sindex + "_AIM_ACCEL", &aimAcceleration, AngleDiff(0.17))
@@ -43,11 +41,11 @@ void PlayerOptions::registerInConsole(int index)
 	;
 }
 
-string PlayerOptions::setColour(list<string> const& args)
+std::string PlayerOptions::setColour(std::list<std::string> const& args)
 {
 	if(args.size() >= 3)
 	{
-		list<string>::const_iterator i = args.begin();
+		std::list<std::string>::const_iterator i = args.begin();
 		int r = cast<int>(*i++);
 		int g = cast<int>(*i++);
 		int b = cast<int>(*i++);
@@ -58,11 +56,11 @@ string PlayerOptions::setColour(list<string> const& args)
 	return "PX_COLOUR <R> <G> <B> : SETS THE COLOUR OF THE WORM BELONGING TO THIS PLAYER";
 }
 
-string PlayerOptions::setTeam(list<string> const& args)
+std::string PlayerOptions::setTeam(std::list<std::string> const& args)
 {
 	if(args.size() >= 1)
 	{
-		list<string>::const_iterator i = args.begin();
+		std::list<std::string>::const_iterator i = args.begin();
 		team = cast<int>(*i++);
 		m_teamChanged = true;
 		return "";

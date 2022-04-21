@@ -171,7 +171,7 @@ int main(int argc, char **argv)
 				
 				if(v > 0)
 				{
-					//cout << ":o" << endl;
+					//std::cout << ":o" << endl;
 					
 					int radius = v;
 					
@@ -198,7 +198,7 @@ int main(int argc, char **argv)
 			putpixel( lightmap, x, y, makecol(v, v, v) );
 		}
 #else
-		vector<IVec> lightSources;
+		std::vector<IVec> lightSources;
 	
 		BITMAP* lightsource = gfx.loadBitmap("lightsource", 0);
 		

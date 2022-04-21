@@ -20,8 +20,6 @@
 #include <boost/filesystem/fstream.hpp>
 namespace fs = boost::filesystem;
 
-using namespace std;
-
 LuaReference WeaponType::metaTable;
 
 WeaponType::WeaponType() : ResourceBase()

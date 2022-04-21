@@ -20,8 +20,6 @@
 
 #include <iostream>
 
-using namespace std;
-
 Viewport::Viewport()
 : dest(0), hud(0)
 {
@@ -183,7 +181,7 @@ void Viewport::render(BasePlayer* player)
 
 	EACH_CALLBACK(i, wormRender)
 	{
-		for(list<BasePlayer*>::iterator playerIter = game.players.begin(); playerIter != game.players.end(); ++playerIter)
+		for(std::list<BasePlayer*>::iterator playerIter = game.players.begin(); playerIter != game.players.end(); ++playerIter)
 		{
 			BaseWorm* worm = (*playerIter)->getWorm();
 			if( worm && worm->isActive() )

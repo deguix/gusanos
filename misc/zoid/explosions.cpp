@@ -110,7 +110,7 @@ explosion::~explosion()
 
 class exp_type* load_exp(const char* exp_name)
 {
-	ifstream fbuf;
+	std::ifstream fbuf;
 	class exp_type *curr;
 	std::string tmp1,tmp2,tmp3;
 	std::string var,val;

@@ -2,18 +2,14 @@
 #include <list>
 #include <cctype>
 
-
-using namespace std;
-
-
 /********************** separate_str_by ****************************************** 
 *  separates the string in 2 chunks the first chunk is from index 0 to the first *
 *  occurence of the given char, the second chunk is the rest of the src string   *
 *********************************************************************************/
 
 /*
-// should be changed to std::pair<string,string> acording to Gliptitc
-void separate_str_by(char ch, const string &src, string &left, string &right)
+// should be changed to std::pair<std::string,std::string> acording to Gliptitc
+void separate_str_by(char ch, const std::string &src, std::string &left, std::string &right)
 {
 	int leftIndex = 0;
 	int rightIndex = 0;
@@ -21,15 +17,15 @@ void separate_str_by(char ch, const string &src, string &left, string &right)
 	if (!src.empty())
 	{
 		leftIndex = src.find_first_not_of(ch);
-		if (leftIndex != string::npos)
+		if (leftIndex != std::string::npos)
 		{
 			rightIndex = src.find_first_of(ch, leftIndex);
-			if (rightIndex != string::npos)
+			if (rightIndex != std::string::npos)
 			{
 				left = src.substr(leftIndex, rightIndex - leftIndex);
 				
 				leftIndex = src.find_first_not_of(ch,rightIndex);
-				if (leftIndex != string::npos)
+				if (leftIndex != std::string::npos)
 				{
 					right = src.substr(leftIndex);
 				}
@@ -42,20 +38,20 @@ void separate_str_by(char ch, const string &src, string &left, string &right)
 	}
 }
 
-list<string> tokenize(const string &text)
+std::list<std::string> tokenize(const std::string &text)
 {
 	int left = 0;
 	int right = 0;
 
 	char lastChar = ' ';
 	
-	list<string> stringList;
+	std::list<std::string> stringList;
 	
-	while (right != string::npos)
+	while (right != std::string::npos)
 	{
 		left = text.find_first_not_of(lastChar, right);
 		
-		if (left != string::npos)
+		if (left != std::string::npos)
 		{
 			if ( text[left] == '"' )
 			{
@@ -63,7 +59,7 @@ list<string> tokenize(const string &text)
 				right = text.find_first_of('"',left);
 			}else
 				right = text.find_first_of("; ",left);
-			if (right != string::npos)
+			if (right != std::string::npos)
 			{
 				lastChar = text[right];
 				
@@ -76,34 +72,34 @@ list<string> tokenize(const string &text)
 			stringList.push_back( text.substr(left) );
 		}
 		else
-			right = string::npos;
+			right = std::string::npos;
 	}
 	
 	return stringList;
 }
 
 
-list< list<string> > text2Tree(const string &text)
+std::list< std::list<std::string> > text2Tree(const std::string &text)
 {
 	int left = 0;
 	int right = 0;
 	
-	list< list<string> > argTree;
+	std::list< std::list<std::string> > argTree;
 	
-	list<string> stringList = tokenize(text);
+	std::list<std::string> stringList = tokenize(text);
 	
 	if (!stringList.empty())
 	{
-		argTree.push_back(list<string>());
-		list<string>::iterator tokensIter = stringList.begin();
+		argTree.push_back(std::list<std::string>());
+		std::list<std::string>::iterator tokensIter = stringList.begin();
 		while (tokensIter != stringList.end())
 		{
 			if ( (*tokensIter) == ";" )
 			{
-				argTree.push_back(list<string>());
+				argTree.push_back(std::list<std::string>());
 			}else
 			{
-				list< list<string> >::iterator iter = argTree.end();
+				std::list< std::list<std::string> >::iterator iter = argTree.end();
 				iter--;
 				(*iter).push_back( (*tokensIter) );
 			}

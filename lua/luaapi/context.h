@@ -153,7 +153,7 @@ public:
 	int evalExpression(std::string const& chunk, std::string const& data);
 	int evalExpression(std::string const& chunk, istream& stream);
 	/*
-	void load(std::string const& chunk, istream& stream, string const& table);
+	void load(std::string const& chunk, istream& stream, std::string const& table);
 	*/
 	int call(int params = 0, int returns = 0, int errfunc = 0);
 	

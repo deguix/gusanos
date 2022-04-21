@@ -10,8 +10,6 @@
 #include <iostream>
 #include <cctype>
 
-using namespace std;
-
 ////////////////////////////PUBLIC//////////////////////////////
 
 //int KeyHandler::keyMap[KEY_MAX];
@@ -79,9 +77,9 @@ void KeyHandler::pollKeyboard()
 				keyUp(i);
 			
 			/*
-			string s = cast<string>(i);
+			std::string s = cast<std::string>(i);
 			
-			for(string::const_iterator o = s.begin(); o != s.end(); ++o)
+			for(std::string::const_iterator o = s.begin(); o != s.end(); ++o)
 			{
 				printableChar(*o);
 			}*/

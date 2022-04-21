@@ -1,8 +1,6 @@
 #include "alias.h"
 #include "util/text.h"
 
-using namespace std;
-
 ///////////////////////////////IntVariable////////////////////////////////
 
 //============================= LIFECYCLE ================================
@@ -25,7 +23,7 @@ ConsoleItem(false), m_name(name), m_action(action)/*, m_parent(parent)*/
 
 //============================= INTERFACE ================================
 
-string Alias::invoke(const std::list<std::string> &args)
+std::string Alias::invoke(const std::list<std::string> &args)
 {
 	if (!m_action.empty())
 	{

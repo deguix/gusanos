@@ -28,8 +28,6 @@
 #include <boost/assign/list_inserter.hpp>
 using namespace boost::assign;
 
-using namespace std;
-
 int const Network::protocolVersion = 2;
 
 LuaReference LuaEventDef::metaTable;
@@ -205,7 +203,7 @@ namespace
 	{
 		if(req->success)
 		{
-			cout << "Unregistered from master server" << endl;
+			std::cout << "Unregistered from master server" << endl;
 		}
 		else
 		{
@@ -223,7 +221,7 @@ namespace
 		if(req->success)
 		{
 			serverAdded = true;
-			cout << "Registered to master server" << endl;
+			std::cout << "Registered to master server" << endl;
 		}
 		else
 		{
@@ -240,7 +238,7 @@ namespace
 	{
 		if(req->success)
 		{
-			cout << "Sent update to master server" << endl;
+			std::cout << "Sent update to master server" << endl;
 		}
 		else
 		{
@@ -430,7 +428,7 @@ void Network::update()
 					m_control = new Client( 0 );
 					registerClasses();
 					ZCom_Address address;
-					address.setAddress( eZCom_AddressUDP, 0, ( data.addr + ":" + cast<string>(m_serverPort) ).c_str() );
+					address.setAddress( eZCom_AddressUDP, 0, ( data.addr + ":" + cast<std::string>(m_serverPort) ).c_str() );
 					m_control->ZCom_Connect( address, NULL );
 					//m_client = true; // We wait with setting this until we've connected
 					m_lastServerAddr = data.addr;

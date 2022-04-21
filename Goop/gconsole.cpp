@@ -18,14 +18,12 @@
 #include <boost/lexical_cast.hpp>
 using boost::lexical_cast;
 
-using namespace std;
-
 #ifndef DEDSERV
 
 #define TEST_KEY(k_, keyname_) if(k_ < 0) return "UNKNOWN KEY \"" + keyname_ + '"'
 
 // Bind console command
-string bindCmd(const list<string> &args)
+std::string bindCmd(const std::list<std::string> &args)
 {
 	// <GLIP> Simplified a little, removed unused vars
 	// and made it print out the help text when too
@@ -33,7 +31,7 @@ string bindCmd(const list<string> &args)
 
 	if (args.size() >= 2) 
 	{
-		std::list<string>::const_iterator arguments = args.begin();
+		std::list<std::string>::const_iterator arguments = args.begin();
 		
 		std::string const& keyName = *arguments++;
 		int key = kName2Int(keyName);
@@ -56,7 +54,7 @@ struct IdentityGetText
 	}
 };
 
-string bindCompleter(Console* con, int idx, std::string const& beginning)
+std::string bindCompleter(Console* con, int idx, std::string const& beginning)
 {
 	if(idx != 0)
 		return beginning;
@@ -71,11 +69,11 @@ string bindCompleter(Console* con, int idx, std::string const& beginning)
 }
 #endif
 
-string echoCmd(list<string> const& args)
+std::string echoCmd(std::list<std::string> const& args)
 {
 	if(args.size() > 0)
 	{
-		std::list<string>::const_iterator i = args.begin();
+		std::list<std::string>::const_iterator i = args.begin();
 		std::string ret = *i++;
 		
 		for(; i != args.end(); ++i)
@@ -92,11 +90,11 @@ string echoCmd(list<string> const& args)
 #ifndef DEDSERV
 /*
 // Key map swapping command
-string swapKeysCmd(const list<string> &args)
+std::string swapKeysCmd(const std::list<std::string> &args)
 {
 	if (args.size() >= 2)
 	{
-		std::list<string>::const_iterator arguments = args.begin();
+		std::list<std::string>::const_iterator arguments = args.begin();
 		std::string const& keyNameA = *arguments++;
 		int keyA = kName2Int(keyNameA);
 		TEST_KEY(keyA, keyNameA);
@@ -112,11 +110,11 @@ string swapKeysCmd(const list<string> &args)
 }
 
 
-string setShiftChar(const list<string> &args)
+std::string setShiftChar(const std::list<std::string> &args)
 {
 	if (args.size() >= 2)
 	{
-		std::list<string>::const_iterator arguments = args.begin();
+		std::list<std::string>::const_iterator arguments = args.begin();
 		
 		std::string const& keyName = *arguments++;
 		int key = kName2Int(keyName);
@@ -130,11 +128,11 @@ string setShiftChar(const list<string> &args)
 	return "SETSHIFTCHAR <KEY> <CHARACTER> : SETS THE CHARACTER TO BE USED WITH SHIFT+KEY";
 }
 
-string setChar(const list<string> &args)
+std::string setChar(const std::list<std::string> &args)
 {
 	if (args.size() >= 2)
 	{
-		std::list<string>::const_iterator arguments = args.begin();
+		std::list<std::string>::const_iterator arguments = args.begin();
 		
 		std::string const& keyName = *arguments++;
 		int key = kName2Int(keyName);
@@ -148,11 +146,11 @@ string setChar(const list<string> &args)
 	return "SETCHAR <KEY> <CHARACTER> : SETS THE CHARACTER TO BE USED WITH KEY";
 }
 
-string setAltGrChar(const list<string> &args)
+std::string setAltGrChar(const std::list<std::string> &args)
 {
 	if (args.size() >= 2)
 	{
-		std::list<string>::const_iterator arguments = args.begin();
+		std::list<std::string>::const_iterator arguments = args.begin();
 		
 		std::string const& keyName = *arguments++;
 		int key = kName2Int(keyName);
@@ -166,11 +164,11 @@ string setAltGrChar(const list<string> &args)
 	return "SETALTGRCHAR <KEY> <CHARACTER> : SETS THE CHARACTER TO BE USED WITH ALTGR+KEY";
 }
 */
-string GConsole::setConsoleKey(list<string> const& args)
+std::string GConsole::setConsoleKey(std::list<std::string> const& args)
 {
 	if (args.size() >= 1)
 	{
-		std::list<string>::const_iterator arguments = args.begin();
+		std::list<std::string>::const_iterator arguments = args.begin();
 		
 		std::string const& keyName = *arguments++;
 		int key = kName2Int(keyName);
@@ -184,7 +182,7 @@ string GConsole::setConsoleKey(list<string> const& args)
 #endif
 
 
-string execCmd(const list<string> &args)
+std::string execCmd(const std::list<std::string> &args)
 {
 	if (!args.empty())
 	{
@@ -197,14 +195,14 @@ string execCmd(const list<string> &args)
 	return "EXEC <FILENAME> : EXECUTE A SCRIPT FILE";
 }
 
-string aliasCmd(const list<string> &args)
+std::string aliasCmd(const std::list<std::string> &args)
 {
-	string name;
-	string action;
+	std::string name;
+	std::string action;
 	
 	if (!args.empty())
 	{
-		list<string>::const_iterator argument;
+		std::list<std::string>::const_iterator argument;
 		argument=args.begin();
 		
 		name = *argument;
@@ -223,13 +221,13 @@ string aliasCmd(const list<string> &args)
 }
 
 /*
-string execScript(list<string> const& args)
+std::string execScript(std::list<std::string> const& args)
 {
 	if (args.size() >= 2)
 	{
-		list<string>::const_iterator i = args.begin();
-		string const& file = *i++;
-		string const& function = *i++;
+		std::list<std::string>::const_iterator i = args.begin();
+		std::string const& file = *i++;
+		std::string const& function = *i++;
 		Script* s = scriptLocator.load(file);
 		if(!s)
 			return "SCRIPT FILE \"" + file + "\" COULDN'T BE LOADED";
@@ -255,11 +253,11 @@ string execScript(list<string> const& args)
 }
 */
 
-string rndSeedCmd(list<string> const& args)
+std::string rndSeedCmd(std::list<std::string> const& args)
 {
 	if(args.size() > 0)
 	{
-		std::list<string>::const_iterator i = args.begin();
+		std::list<std::string>::const_iterator i = args.begin();
 
 		rndgen.seed(cast<boost::mt19937::result_type>(*i));
 		return "";
@@ -268,11 +266,11 @@ string rndSeedCmd(list<string> const& args)
 	return "RND_SEED <SEED> : SEEDS THE RANDOM GENERATOR WITH <SEED>";
 }
 
-string restCmd(list<string> const& args)
+std::string restCmd(std::list<std::string> const& args)
 {
 	if(args.size() > 0)
 	{
-		std::list<string>::const_iterator i = args.begin();
+		std::list<std::string>::const_iterator i = args.begin();
 		
 		int t = cast<int>(*i);
 		rest(t);		
@@ -337,21 +335,21 @@ void GConsole::init()
 
 	console.registerCommands()
 #ifndef DEDSERV
-		(string("BIND"), bindCmd, bindCompleter)
+		(std::string("BIND"), bindCmd, bindCompleter)
 /*
-		(string("SWAPKEYS"), swapKeysCmd)
-		(string("SETSHIFTCHAR"), setShiftChar)
-		(string("SETALTGRCHAR"), setAltGrChar)
-		(string("SETCHAR"), setChar)
+		(std::string("SWAPKEYS"), swapKeysCmd)
+		(std::string("SETSHIFTCHAR"), setShiftChar)
+		(std::string("SETALTGRCHAR"), setAltGrChar)
+		(std::string("SETCHAR"), setChar)
 */
-		(string("SETCONSOLEKEY"), boost::bind(&GConsole::setConsoleKey, this, boost::placeholders::_1))
+		(std::string("SETCONSOLEKEY"), boost::bind(&GConsole::setConsoleKey, this, boost::placeholders::_1))
 #endif
-		(string("EXEC"), execCmd)
-		//(string("EXECSCRIPT"), execScript)
-		(string("ALIAS"), aliasCmd)
-		(string("ECHO"), echoCmd)
-		(string("RND_SEED"), rndSeedCmd)
-		(string("REST"), restCmd)
+		(std::string("EXEC"), execCmd)
+		//(std::string("EXECSCRIPT"), execScript)
+		(std::string("ALIAS"), aliasCmd)
+		(std::string("ECHO"), echoCmd)
+		(std::string("RND_SEED"), rndSeedCmd)
+		(std::string("REST"), restCmd)
 	;
 	
 	currentCommand = commandsLog.end(); //To workaround a crashbug with uninitialized iterator
@@ -374,7 +372,7 @@ void GConsole::loadResources()
 	m_font = fontLocator.load(m_fontName);
 
 	if(!m_font)
-		cout << "Console font couldn't be loaded" << endl;
+		std::cout << "Console font couldn't be loaded" << endl;
 	
 	background = spriteList.load("con_background");
 #endif
@@ -395,17 +393,17 @@ void GConsole::render(BITMAP* where, bool fullScreen)
 
 		int y = static_cast<int>(pos) - 5;
 		
-		string tempString = (']' + m_inputBuff + '*');
+		std::string tempString = (']' + m_inputBuff + '*');
 
 		std::pair<int, int> dim;
-		string::const_reverse_iterator b = tempString.rbegin(), e = tempString.rend();
+		std::string::const_reverse_iterator b = tempString.rbegin(), e = tempString.rend();
 		// When using reverse iterators, fitString tries to fit the spacing of
 		// the last character as well which isn't exactly what is wanted
 		e = m_font->fitString(b, e, 320-5, dim);
 		y -= dim.second;
 		m_font->draw(where, e.base(), b.base(), 5, y);
 		
-		list<string>::reverse_iterator msgiter;
+		std::list<std::string>::reverse_iterator msgiter;
 		if ( scrolling )
 		{
 			msgiter = logRenderPos;
@@ -418,14 +416,14 @@ void GConsole::render(BITMAP* where, bool fullScreen)
 		    msgiter != log.rend() && y > 0;
 		    ++msgiter)
 		{
-			string const& msg = *msgiter;
+			std::string const& msg = *msgiter;
 			
-			string::const_iterator b = msg.begin(), e = msg.end(), n;
+			std::string::const_iterator b = msg.begin(), e = msg.end(), n;
 			
 			int totalHeight = 0;
 			do
 			{
-				pair<int, int> dim;
+				std::pair<int, int> dim;
 				n = m_font->fitString(b, e, 320-5, dim, 0, Font::Formatting);
 				if(n == b)
 					break;
@@ -448,7 +446,7 @@ void GConsole::render(BITMAP* where, bool fullScreen)
 			
 			do
 			{
-				pair<int, int> dim;
+				std::pair<int, int> dim;
 				n = m_font->fitString(b, e, 320-5, dim, 0, Font::Formatting);
 				if(n == b)
 					break;
@@ -602,7 +600,7 @@ bool GConsole::eventPrintableChar(char c, int k)
 		else if (c == '\t') //Tab
 		{
 			/*
-			string autoCompText = autoComplete( m_inputBuff );
+			std::string autoCompText = autoComplete( m_inputBuff );
 			if (m_inputBuff == autoCompText)
 			{
 				listItems(m_inputBuff);
@@ -663,7 +661,7 @@ void GConsole::addQueueCommand( std::string const & command )
 #ifdef DEDSERV
 void GConsole::addLogMsg(const std::string &msg)
 {
-	cout << "CONSOLE: " << msg << endl;
+	std::cout << "CONSOLE: " << msg << endl;
 }
 #endif
 //============================= PRIVATE ======================================

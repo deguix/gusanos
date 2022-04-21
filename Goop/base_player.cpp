@@ -230,7 +230,7 @@ void BasePlayer::think()
 							if(size > game.options.maxWeapons)
 								break; // Avoid horrible crashes etc.
 								
-							vector<WeaponType*> weaps(size,0);
+							std::vector<WeaponType*> weaps(size,0);
 							for ( size_t i = 0; i < size; ++i )
 							{
 								weaps[i] = game.weaponList[Encoding::decode(*data, game.weaponList.size())];
@@ -363,7 +363,7 @@ void BasePlayer::addActionStop(ZCom_BitStream* data, BasePlayer::BaseActions act
 
 bool nameIsTaken( const std::string& name )
 {
-	list<BasePlayer*>::iterator playerIter;
+	std::list<BasePlayer*>::iterator playerIter;
 	for ( playerIter = game.players.begin(); playerIter != game.players.end(); playerIter++ )
 	{
 		if ( (*playerIter)->m_name == name )
@@ -384,7 +384,7 @@ void BasePlayer::localChangeName(std::string const& name, bool forceChange)
 	if(m_name == name)
 		return;
 	
-	string nameToUse = name;
+	std::string nameToUse = name;
 	
 	if(!forceChange)
 	{
@@ -392,7 +392,7 @@ void BasePlayer::localChangeName(std::string const& name, bool forceChange)
 		while ( nameIsTaken( nameToUse ) )
 		{
 			++nameSuffix;
-			nameToUse = name + "(" + cast<string>(nameSuffix) + ")";
+			nameToUse = name + "(" + cast<std::string>(nameSuffix) + ")";
 		}
 	}
 	
@@ -504,7 +504,7 @@ void BasePlayer::sendChatMsg( std::string const& message )
 	}
 }
 
-void BasePlayer::selectWeapons( vector< WeaponType* > const& weaps )
+void BasePlayer::selectWeapons( std::vector< WeaponType* > const& weaps )
 {
 	if ( !network.isClient() && m_worm )
 	{
@@ -522,7 +522,7 @@ void BasePlayer::selectWeapons( vector< WeaponType* > const& weaps )
 		addEvent(data, SELECT_WEAPONS );
 		
 		Encoding::encode(*data, weaps.size(), game.options.maxWeapons+1 );
-		for( vector<WeaponType*>::const_iterator iter = weaps.begin(); iter != weaps.end(); ++iter )
+		for( std::vector<WeaponType*>::const_iterator iter = weaps.begin(); iter != weaps.end(); ++iter )
 		{
 			Encoding::encode(*data, (*iter)->getIndex(), game.weaponList.size());
 		}

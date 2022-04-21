@@ -10,8 +10,6 @@
 #include <iostream>
 #include <algorithm>
 
-using namespace std;
-
 // LIGHTHAX!!
 #include "util/vec.h"
 Sprite* genLight( int radius )

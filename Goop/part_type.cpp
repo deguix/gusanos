@@ -37,8 +37,6 @@
 #include <boost/filesystem/fstream.hpp>
 namespace fs = boost::filesystem;
 
-using namespace std;
-
 ResourceList<PartType> partTypeList;
 
 LuaReference PartType::metaTable;
@@ -168,11 +166,11 @@ PartType::~PartType()
 	delete distortion;
 	delete lightHax;
 #endif
-	for ( vector<TimerEvent*>::iterator i = timer.begin(); i != timer.end(); i++)
+	for ( std::vector<TimerEvent*>::iterator i = timer.begin(); i != timer.end(); i++)
 	{
 		delete *i;
 	}
-	for ( vector<DetectEvent*>::iterator i = detectRanges.begin(); i != detectRanges.end(); i++)
+	for ( std::vector<DetectEvent*>::iterator i = detectRanges.begin(); i != detectRanges.end(); i++)
 	{
 		delete *i;
 	}
@@ -576,13 +574,13 @@ void PartType::finalize()
 	delete distortion; distortion = 0;
 	delete lightHax; lightHax = 0;
 #endif
-	for ( vector<TimerEvent*>::iterator i = timer.begin(); i != timer.end(); i++)
+	for ( std::vector<TimerEvent*>::iterator i = timer.begin(); i != timer.end(); i++)
 	{
 		delete *i;
 	}
 	timer.clear();
 	
-	for ( vector<DetectEvent*>::iterator i = detectRanges.begin(); i != detectRanges.end(); i++)
+	for ( std::vector<DetectEvent*>::iterator i = detectRanges.begin(); i != detectRanges.end(); i++)
 	{
 		delete *i;
 	}

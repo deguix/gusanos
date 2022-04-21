@@ -67,7 +67,7 @@ void TC::read(std::istream& f, std::istream& soundStream)
 
 	f.seekg(112806);
 
-	cout << "Reading weapons..." << endl;
+	std::cout << "Reading weapons..." << endl;
 	READ_W(detectdistance);
 	READ_W(affectbywormspeed);
 	READ_W(blowaway);
@@ -120,7 +120,7 @@ void TC::read(std::istream& f, std::istream& soundStream)
 
 	f.seekg(111430);
 
-	cout << "Reading objects..." << endl;
+	std::cout << "Reading objects..." << endl;
 	READ_O(detectdistance);
 	READ_O(gravity);
 	READ_O(speed);
@@ -151,7 +151,7 @@ void TC::read(std::istream& f, std::istream& soundStream)
 	READ_O(timetoexplosionv);
 
 	// Weapon names
-	cout << "Reading weapon names..." << endl;
+	std::cout << "Reading weapon names..." << endl;
 	f.seekg(0x1B676);
 	for(i = 0; i < 40; i++)
 	{
@@ -159,12 +159,12 @@ void TC::read(std::istream& f, std::istream& soundStream)
 		f.read((char *)&len, 1);
 		f.read(w[i].name, 13);
 		w[i].name[len] = 0;
-		//cout << "Read " << w[c].name << endl;
+		//std::cout << "Read " << w[c].name << endl;
 	}
 
 	f.seekg(132774);
 
-	cout << "Reading palette..." << endl;
+	std::cout << "Reading palette..." << endl;
 	for(i = 0; i < 256; ++i)
 	{
 		palette[i].r = f.get() << 2;
@@ -176,12 +176,12 @@ void TC::read(std::istream& f, std::istream& soundStream)
 	soundStream.seekg(0);
 	short count = 0;
 	soundStream.read((char *)&count, 2);
-	cout << "Reading sounds (" << count << " sounds)..." << endl;
+	std::cout << "Reading sounds (" << count << " sounds)..." << endl;
 
 	s.assign((size_t)count, Sound());
 
 	i = 1;
-	{for(vector<Sound>::iterator siter = s.begin(); siter != s.end(); ++siter, ++i)
+	{for(std::vector<Sound>::iterator siter = s.begin(); siter != s.end(); ++siter, ++i)
 	{
 		siter->tc = this;
 		soundStream.read(siter->name, 8);
@@ -189,25 +189,25 @@ void TC::read(std::istream& f, std::istream& soundStream)
 		soundStream.read((char *)&siter->length, 4);
 	}}
 
-	cout << "Sound headers read. Reading sound data..." << endl;
+	std::cout << "Sound headers read. Reading sound data..." << endl;
 
-	{for(vector<Sound>::iterator siter = s.begin(); siter != s.end(); ++siter)
+	{for(std::vector<Sound>::iterator siter = s.begin(); siter != s.end(); ++siter)
 	{
 		soundStream.seekg(siter->offset);
 		siter->data.resize(siter->length);
 		soundStream.read(&siter->data[0], siter->length);
-		for(vector<char>::iterator dataiter = siter->data.begin(); dataiter != siter->data.end(); ++dataiter)
+		for(std::vector<char>::iterator dataiter = siter->data.begin(); dataiter != siter->data.end(); ++dataiter)
 		{
 			*dataiter += -128;
 		}
 	}}
 	
-	cout << "Liero exe and Liero sound file read successfully." << endl;
+	std::cout << "Liero exe and Liero sound file read successfully." << endl;
 }
 
 void filterName(std::string& name)
 {
-	for(string::iterator i = name.begin(); i != name.end(); ++i)
+	for(std::string::iterator i = name.begin(); i != name.end(); ++i)
 	{
 		char c = tolower(*i);
 		if(!isalnum(c) && c != '.' && c != '_' && c != '-')
@@ -216,12 +216,12 @@ void filterName(std::string& name)
 	}
 }
 
-string Sound::writeSound()
+std::string Sound::writeSound()
 {
 	if(written)
 		return writtenName;
 
-	writtenName = string(name) + ".wav";
+	writtenName = std::string(name) + ".wav";
 	filterName(writtenName);
 	written = true;
 
@@ -250,12 +250,12 @@ void WeapSettings::writeWObjExplActions(std::ostream& f)
 	
 }
 
-string WeapSettings::writeWeapon()
+std::string WeapSettings::writeWeapon()
 {
 	if(written)
 		return writtenName;
 
-	writtenName = string(name) + ".wpn";
+	writtenName = std::string(name) + ".wpn";
 	filterName(writtenName);
 	written = true;
 
@@ -287,12 +287,12 @@ string WeapSettings::writeWeapon()
 	return writtenName;
 }
 
-string WeapSettings::writeWObj()
+std::string WeapSettings::writeWObj()
 {
 	if(objWritten)
 		return objWrittenName;
 
-	objWrittenName = string(name) + ".obj";
+	objWrittenName = std::string(name) + ".obj";
 	filterName(objWrittenName);
 	objWritten = true;
 
@@ -305,7 +305,7 @@ string WeapSettings::writeWObj()
 	f << "gravity = " << acceleration(gravity) << endl;
 	f << "acceleration = " << accelerationRatio(addspeed) << endl;
 	f << "bounce_factor = " << factor(bounce) << endl;
-	//cout << "sprite" << writeAnimation() << endl; //TODO
+	//std::cout << "sprite" << writeAnimation() << endl; //TODO
 	f << "anim_duration = " << time(8) << endl;
 	f << "anim_type = loop_right" << endl; //TODO: We need the animation to depend on the direction of the object
 	//TODO: Angled sprites
@@ -364,7 +364,7 @@ void ObjSettings::writeObjExplActions(std::ostream& f)
 	
 }
 
-string ObjSettings::writeObj()
+std::string ObjSettings::writeObj()
 {
 	if(written)
 		return writtenName;
@@ -382,7 +382,7 @@ string ObjSettings::writeObj()
 	f << setprecision(3);
 	f << "gravity = " << acceleration(gravity) << endl;
 	f << "bounce_factor = " << factor(bounce) << endl;
-	//cout << "sprite" << writeAnimation() << endl; //TODO
+	//std::cout << "sprite" << writeAnimation() << endl; //TODO
 	f << "anim_duration = " << (int)time(8) << endl;
 	f << "anim_type = loop_right" << endl; //TODO: We need the animation to depend on the direction of the object
 	

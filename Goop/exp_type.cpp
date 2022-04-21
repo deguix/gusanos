@@ -28,8 +28,6 @@
 #include <boost/filesystem/fstream.hpp>
 namespace fs = boost::filesystem;
 
-using namespace std;
-
 ResourceList<ExpType> expTypeList;
 
 ExpType::ExpType()
@@ -62,7 +60,7 @@ ExpType::~ExpType()
 	delete distortion;
 	delete lightHax;
 #endif
-	for ( vector<DetectEvent*>::iterator i = detectRanges.begin(); i != detectRanges.end(); i++)
+	for ( std::vector<DetectEvent*>::iterator i = detectRanges.begin(); i != detectRanges.end(); i++)
 	{
 		delete *i;
 	}

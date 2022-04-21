@@ -56,7 +56,7 @@ struct Culler
 		if(this->block(hp, vp))
 		{
 #ifdef DEBUG_CULLER
-			cout << "Trimming beginning at " << vp << endl;
+			std::cout << "Trimming beginning at " << vp << endl;
 #endif
 			
 			do
@@ -65,8 +65,8 @@ struct Culler
 				if(hp > hpe)
 				{
 #ifdef DEBUG_CULLER
-					cout << "hp overlaps hpe: " << hp << " > " << hpe << endl;
-					cout << "bpos = " << (bpos / 255.f) << ", epos = " << (epos / 255.f) << endl;
+					std::cout << "hp overlaps hpe: " << hp << " > " << hpe << endl;
+					std::cout << "bpos = " << (bpos / 255.f) << ", epos = " << (epos / 255.f) << endl;
 #endif
 					goto donehere;
 				}
@@ -82,7 +82,7 @@ struct Culler
 		if(this->block(hpe, vp))
 		{
 #ifdef DEBUG_CULLER
-			cout << "Trimming end at " << vp << endl;
+			std::cout << "Trimming end at " << vp << endl;
 #endif
 			do
 			{
@@ -90,8 +90,8 @@ struct Culler
 				if(hpe < hp)
 				{
 #ifdef DEBUG_CULLER
-					cout << "hpe overlaps hp: " << hpe << " < " << hp << endl;
-					cout << "bpos = " << (bpos / 255.f) << ", epos = " << (epos / 255.f) << endl;
+					std::cout << "hpe overlaps hp: " << hpe << " < " << hp << endl;
+					std::cout << "bpos = " << (bpos / 255.f) << ", epos = " << (epos / 255.f) << endl;
 #endif
 					goto donehere;
 				}
@@ -120,7 +120,7 @@ struct Culler
 		if(hp == hpe) // There's only this segment. We can tail call.
 		{
 #ifdef DEBUG_CULLER
-			cout << "Tail call at " << vp << endl;
+			std::cout << "Tail call at " << vp << endl;
 #endif
 			
 			this->line(vp, bp, hp);
@@ -128,7 +128,7 @@ struct Culler
 			if(vp >= this->limitV())
 			{
 #ifdef DEBUG_CULLER
-				cout << "Reached limit" << endl;
+				std::cout << "Reached limit" << endl;
 #endif
 				goto donehere;
 			}
@@ -147,7 +147,7 @@ struct Culler
 				// We won't go deeper, so go to next chunk on this row
 				++hp; // Goto first blocking pixel
 #ifdef DEBUG_CULLER
-				cout << "Reached limit of multiple chunks, next chunk.." << endl;
+				std::cout << "Reached limit of multiple chunks, next chunk.." << endl;
 #endif
 				goto next_chunk;
 			}
@@ -179,7 +179,7 @@ struct Culler
 		
 	donehere:
 #ifdef DEBUG_CULLER
-		cout << "Done here, " << stack.size() << " states stacked." << endl;
+		std::cout << "Done here, " << stack.size() << " states stacked." << endl;
 #endif
 		
 		if(stack.size() > 0)

@@ -15,7 +15,6 @@
 using std::cerr;
 using std::endl;
 using std::string;
-//using namespace std;
 
 DistortionMap* lensMap(int radius)
 {
@@ -142,7 +141,7 @@ DistortionMap* randomMap(int radius)
 	return lens;
 }
 
-DistortionMap* bitmapMap(const string &filename)
+DistortionMap* bitmapMap(const std::string &filename)
 {
 	int currVdepth = get_color_depth();
 	

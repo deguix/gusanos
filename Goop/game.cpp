@@ -59,7 +59,6 @@
 
 namespace fs = boost::filesystem;
 
-//using namespace std; // Conflicting
 using std::string;
 using std::list;
 using std::vector;
@@ -112,11 +111,11 @@ ZCom_ClassID Game::classID = ZCom_Invalid_ID;
 
 Game game;
 
-string mapCmd(const list<string> &args)
+std::string mapCmd(const std::list<std::string> &args)
 {
 	if (!args.empty())
 	{
-		string tmp = *args.begin();
+		std::string tmp = *args.begin();
 		std::transform(tmp.begin(), tmp.end(), tmp.begin(), (int(*)(int)) tolower);
 		/*
 		if(!game.changeLevelCmd( tmp ))
@@ -138,7 +137,7 @@ struct MapIterGetText
 	}
 };
 
-string mapCompleter(Console* con, int idx, std::string const& beginning)
+std::string mapCompleter(Console* con, int idx, std::string const& beginning)
 {
 	if(idx != 0)
 		return beginning;
@@ -152,11 +151,11 @@ string mapCompleter(Console* con, int idx, std::string const& beginning)
 	);
 }
 
-string gameCmd(const list<string> &args)
+std::string gameCmd(const std::list<std::string> &args)
 {
 	if (!args.empty())
 	{
-		string tmp = *args.begin();
+		std::string tmp = *args.begin();
 		std::transform(tmp.begin(), tmp.end(), tmp.begin(), (int(*)(int)) tolower);
 		if(!game.setMod( tmp ))
 			return "MOD " + tmp + " NOT FOUND";
@@ -174,7 +173,7 @@ struct GameIterGetText
 	}
 };
 
-string gameCompleter(Console* con, int idx, std::string const& beginning)
+std::string gameCompleter(Console* con, int idx, std::string const& beginning)
 {
 	if(idx != 0)
 		return beginning;
@@ -188,12 +187,12 @@ string gameCompleter(Console* con, int idx, std::string const& beginning)
 	);
 }
 
-string addbotCmd(const list<string> &args)
+std::string addbotCmd(const std::list<std::string> &args)
 {
 	if ( !network.isClient() )
 	{
 		int team = -1;
-		list<string>::const_iterator i = args.begin();
+		std::list<std::string>::const_iterator i = args.begin();
 		if(i != args.end())
 		{
 			team = cast<int>(*i);
@@ -207,7 +206,7 @@ string addbotCmd(const list<string> &args)
 	}
 }
 
-string connectCmd(const list<string> &args)
+std::string connectCmd(const std::list<std::string> &args)
 {
 	if ( !args.empty() )
 	{
@@ -219,13 +218,13 @@ string connectCmd(const list<string> &args)
 	return "CONNECT <HOST_ADDRESS> : JOIN A NETWORK SERVER";
 }
 
-string rConCmd(const list<string> &args)
+std::string rConCmd(const std::list<std::string> &args)
 {
 	if ( !args.empty() && network.isClient() )
 	{
 		
-		list<string>::const_iterator iter = args.begin();
-		string tmp = *iter++;
+		std::list<std::string>::const_iterator iter = args.begin();
+		std::string tmp = *iter++;
 		for (; iter != args.end(); ++iter )
 		{
 			tmp += " \"" + *iter + '"';
@@ -236,7 +235,7 @@ string rConCmd(const list<string> &args)
 	return "";
 }
 
-string rConCompleter(Console* con, int idx, std::string const& beginning)
+std::string rConCompleter(Console* con, int idx, std::string const& beginning)
 {
 	if(idx != 0)
 		return beginning;
@@ -259,7 +258,7 @@ BasePlayer* findPlayerByName(std::string const& name)
 	return 0;
 }
 
-string banCmd(list<string> const& args)
+std::string banCmd(std::list<std::string> const& args)
 {
 	if ( !network.isClient() && !args.empty() )
 	{
@@ -274,7 +273,7 @@ string banCmd(list<string> const& args)
 	return "BAN <PLAYER_NAME> : BANS THE PLAYER WITH THE SPECIFIED NAME";
 }
 
-string kickCmd(const list<string> &args)
+std::string kickCmd(const std::list<std::string> &args)
 {
 	if ( !network.isClient() && !args.empty() )
 	{
@@ -299,7 +298,7 @@ struct BasePlayerIterGetText
 	}
 };
 
-string kickCompleter(Console* con, int idx, std::string const& beginning)
+std::string kickCompleter(Console* con, int idx, std::string const& beginning)
 {
 	if(idx != 0)
 		return beginning;
@@ -634,7 +633,7 @@ void Game::think()
 					(lua.call(*i), conn_id)();
 				}
 				
-				list<LevelEffectEvent>::iterator iter = appliedLevelEffects.begin();
+				std::list<LevelEffectEvent>::iterator iter = appliedLevelEffects.begin();
 				for( ; iter != appliedLevelEffects.end() ; ++iter )
 				{
 					ZCom_BitStream *data = new ZCom_BitStream;
@@ -764,7 +763,7 @@ void Game::runInitScripts()
 void Game::reset(ResetReason reason)
 {
 	// Delete all players
-	for ( list<BasePlayer*>::iterator iter = players.begin(); iter != players.end(); ++iter)
+	for ( std::list<BasePlayer*>::iterator iter = players.begin(); iter != players.end(); ++iter)
 	{
 		(*iter)->deleteThis();
 	}
@@ -809,7 +808,7 @@ void Game::unload()
 	reset(LoadingLevel);
 /*
 	// Delete all players
-	for ( list<BasePlayer*>::iterator iter = players.begin(); iter != players.end(); ++iter)
+	for ( std::list<BasePlayer*>::iterator iter = players.begin(); iter != players.end(); ++iter)
 	{
 		(*iter)->deleteThis();
 	}
@@ -831,7 +830,7 @@ void Game::unload()
 	
 	level.unload();
 */
-	for ( vector<WeaponType*>::iterator iter = weaponList.begin(); iter != weaponList.end(); ++iter)
+	for ( std::vector<WeaponType*>::iterator iter = weaponList.begin(); iter != weaponList.end(); ++iter)
 	{
 		luaDelete(*iter);
 	}
@@ -1068,7 +1067,7 @@ void Game::assignNetworkRole( bool authority )
 	m_node->applyForZoidLevel(1);
 }
 
-void Game::sendRConMsg( string const& message )
+void Game::sendRConMsg( std::string const& message )
 {
 	ZCom_BitStream *req = new ZCom_BitStream;
 	req->addInt(Network::RConMsg, 8);
@@ -1083,7 +1082,7 @@ void Game::removeNode()
 	m_node = NULL;
 }
 
-bool Game::setMod( const string& modname )
+bool Game::setMod( const std::string& modname )
 {
 	if( fs::exists(modname) )
 	{
@@ -1136,7 +1135,7 @@ void Game::displayMessage( ScreenMessage const& msg )
 	messages.push_back(msg);
 }
 
-const string& Game::getMod()
+const std::string& Game::getMod()
 {
 	return m_modName;
 }
@@ -1153,7 +1152,7 @@ fs::path const& Game::getDefaultPath()
 
 BasePlayer* Game::findPlayerWithID( ZCom_NodeID ID )
 {
-	list<BasePlayer*>::iterator playerIter;
+	std::list<BasePlayer*>::iterator playerIter;
 	for ( playerIter = game.players.begin(); playerIter != game.players.end(); ++playerIter)
 	{
 		if ( (*playerIter)->getNodeID() == ID )

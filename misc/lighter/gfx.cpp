@@ -35,7 +35,7 @@ void Gfx::init()
 	set_color_depth(32);
 }
 
-BITMAP* Gfx::loadBitmap( const string& filename, RGB* palette, bool keepAlpha )
+BITMAP* Gfx::loadBitmap( const std::string& filename, RGB* palette, bool keepAlpha )
 {
 	BITMAP* returnValue = NULL;
 	
@@ -67,7 +67,7 @@ BITMAP* Gfx::loadBitmap( const string& filename, RGB* palette, bool keepAlpha )
 	}
 	else
 	{
-		string tmp = filename;
+		std::string tmp = filename;
 		tmp += ".png";
 		if ( exists( tmp.c_str() ) )
 		{
@@ -87,7 +87,7 @@ BITMAP* Gfx::loadBitmap( const string& filename, RGB* palette, bool keepAlpha )
 	return returnValue;
 }
 
-bool Gfx::saveBitmap( const string &filename,BITMAP* image, RGB* palette )
+bool Gfx::saveBitmap( const std::string &filename,BITMAP* image, RGB* palette )
 {
 	bool returnValue = false;
 	

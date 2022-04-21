@@ -21,7 +21,6 @@
 namespace fs = boost::filesystem;
 
 #include <iostream>
-using namespace std;
 
 GusanosLevelLoader GusanosLevelLoader::instance;
 

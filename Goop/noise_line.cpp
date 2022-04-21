@@ -5,8 +5,6 @@
 #include <allegro.h>
 #include <vector>
 
-using namespace std;
-
 NoiseLine::NoiseLine()
 {
 }

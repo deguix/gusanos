@@ -21,8 +21,6 @@
 #include <vector>
 #include <zoidcom.h>
 
-using namespace std;
-
 ZCom_ClassID NetWorm::classID = ZCom_Invalid_ID;
 
 NetWorm::NetWorm(bool isAuthority) : BaseWorm()
@@ -459,7 +457,7 @@ bool NetWormInterceptor::inPreUpdateItem (ZCom_Node *_node, ZCom_ConnID _from, e
 		case NetWorm::PlayerID:
 		{
 			ZCom_NodeID recievedID = *static_cast<zU32*>(_replicator->peekData());
-			list<BasePlayer*>::iterator playerIter;
+			std::list<BasePlayer*>::iterator playerIter;
 			for ( playerIter = game.players.begin(); playerIter != game.players.end(); playerIter++)
 			{
 				if ( (*playerIter)->getNodeID() == recievedID )

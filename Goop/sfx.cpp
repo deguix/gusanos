@@ -13,11 +13,9 @@ using namespace boost::assign;
 #include <fmod_errors.h>
 #include <boost/utility.hpp>
 
-using namespace std;
-
 #define FMOD_ERROR_CHECK \
 	if (fmod_result != FMOD_OK) { \
-		console.addLogMsg(string("* FMOD ERROR ") + FMOD_ErrorString(fmod_result)); \
+		console.addLogMsg(std::string("* FMOD ERROR ") + FMOD_ErrorString(fmod_result)); \
 		return; \
 	}
 // cerr << "* FMOD ERROR " << FMOD_ErrorString(sfx.fmod_result) << endl;
@@ -67,14 +65,14 @@ void Sfx::init()
 
 	/* We select default driver for now
 	int numDrivers = FSOUND_GetNumDrivers();
-	// TODO: Desired driver here: string desiredDriver(); 
+	// TODO: Desired driver here: std::string desiredDriver(); 
 	int selectedDriver = 0;
 	
 	for(int i = 0; i < numDrivers; ++i)
 	{
 		const char* driverName = FSOUND_GetDriverName(i);
-		console.addLogMsg(string("* FMOD DRIVER ") + cast<string>(i) + string(": ") + driverName);
-		if(string(driverName).find(desiredDriver) >= 0)
+		console.addLogMsg(std::string("* FMOD DRIVER ") + cast<std::string>(i) + std::string(": ") + driverName);
+		if(std::string(driverName).find(desiredDriver) >= 0)
 		{
 			selectedDriver = i;
 			break;
@@ -159,7 +157,7 @@ void Sfx::think()
 	
 	//Update 3d channel that follow objects positions
 	/*
-	list< pair< int, BaseObject* > >::iterator obj, next;
+	std::list< std::pair< int, BaseObject* > >::iterator obj, next;
 	for ( obj = chanObject.begin(); obj != chanObject.end(); obj = next)
 	{
 		next = boost::next(obj);
@@ -191,7 +189,7 @@ void Sfx::think()
 	{
 		if ( obj->second && ( obj->second->deleteMe || !FSOUND_IsPlaying( obj->first ) ) )
 		{
-			list< pair< int, BaseObject* > >::iterator tmp = obj;
+			std::list< std::pair< int, BaseObject* > >::iterator tmp = obj;
 			obj++;
 			chanObject.erase(tmp);
 		}
@@ -203,7 +201,7 @@ void Sfx::think()
 
 void Sfx::setChanObject(FMOD::Channel* chan, BaseObject* object)
 {
-	chanObject.push_back( pair< FMOD::Channel*, BaseObject* > ( chan, object ) );
+	chanObject.push_back( std::pair< FMOD::Channel*, BaseObject* > ( chan, object ) );
 }
 	
 void Sfx::clear()
@@ -219,7 +217,7 @@ Listener* Sfx::newListener()
 
 void Sfx::freeListener(Listener* listener)
 {
-	vector<Listener*>::iterator i;
+	std::vector<Listener*>::iterator i;
 	for ( i = listeners.begin(); i != listeners.end(); ++i )
 	{
 		if ( listener == *i )
