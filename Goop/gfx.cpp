@@ -182,7 +182,12 @@ void Gfx::init()
 void Gfx::shutDown()
 {
 #ifndef DEDSERV
-	destroy_bitmap(buffer); buffer = 0;
+	destroy_bitmap(buffer);
+	buffer = 0;
+	if (m_doubleResBuffer)  {
+		destroy_bitmap(m_doubleResBuffer);
+		m_doubleResBuffer = NULL;
+	}
 #endif
 }
 
