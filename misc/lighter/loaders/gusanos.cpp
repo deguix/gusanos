@@ -25,9 +25,9 @@ bool GusanosLevelLoader::canLoad(fs::path const& path, std::string& name)
 	
 bool GusanosLevelLoader::load(Level* level, fs::path const& path)
 {
-	std::string materialPath = (path / "material").native();
+	std::string materialPath = (path / "material").string();
 	
-	level->path = path.native();
+	level->path = path.string();
 	
 	{
 		LocalSetColorDepth cd(8);

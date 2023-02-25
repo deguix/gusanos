@@ -85,7 +85,7 @@ public:
 				item = m_resItems.find(filename);
 				m_resItems.erase(item);
 				if(!suppressError)
-					cerr << "ERROR: Could not load " << filename.native() << endl;
+					std::cerr << "ERROR: Could not load " << filename.string() << std::endl;
 				return NULL;
 			}
 		}

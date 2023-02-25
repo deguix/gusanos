@@ -12,7 +12,13 @@
 #include <boost/filesystem/path.hpp>
 namespace fs = boost::filesystem;
 
+#ifdef __MINGW32__ //Fixes issue on using proper calling convention on FMODEx while using mingw (for some reason)
+	#define __CYGWIN32__
+#endif
 #include <fmod.hpp>
+#ifdef __MINGW32__
+	#undef __CYGWIN32__
+#endif
 
 class BaseObject;
 

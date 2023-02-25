@@ -123,7 +123,7 @@ namespace
 		else
 		{
 			DLOG("Queing " << p.string());
-			fileQueue.push_back(std::make_pair(0, p.native()));
+			fileQueue.push_back(std::make_pair(0, p.string()));
 		}
 	}
 	

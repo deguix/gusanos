@@ -2,6 +2,7 @@
 #define OMFGUTIL_DETAIL_RECT_H
 
 #include "vec.h"
+#define ALLEGRO_NO_MAGIC_MAIN
 #include <allegro.h>
 
 template<class T>

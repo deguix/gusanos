@@ -936,7 +936,7 @@ void Game::refreshMods()
 		{
 			if ( fs::exists(*i / "weapons"))
 			{
-				modList.insert(i->path().filename().native());
+				modList.insert(i->path().filename().string());
 			}
 		}
 	}

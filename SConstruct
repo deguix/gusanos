@@ -11,18 +11,27 @@ platform = sys.platform
 ## Download Fmodex 4.44.64 from https://zdoom.org/files/fmod/ - TY ZDoom so much for this!
 ## Extract zoidcom to this folder (to solve its dependency).
 ## (Linux) Extract fmodex to this folder. (Windows) Install fmodex, and copy .dll to this folder and include folder files to "./fmodex/api/inc/"
-## (Windows) Place other dll files at '.' folder. Good luck compiling them!
+## (Windows) Place other dll files at '.' folder. Good luck compiling them! Also run create_libs.sh in ./lib folder to make fixed .a files for FMODEx and zoidcom.
 
-if (platform == "win64") or (platform == "win32"):
+if (platform == "win64") or (platform == "win32") or (platform == "cygwin"):
 	#use mingw only - msvc is not supported yet
 	env = Environment(tools = ['mingw'], ENV = {'PATH' : os.environ['PATH']})
 	
-	env.Append(LIBS 				= ['stdc++', 'luajit-5.1', 'zoidcom', 'fmodex64', 'png', 'z', 'boost_filesystem', 'alleg'])
-	env.Append(LIBPATH 				= ['.', './zoidcom/lib/mingw/']) #will find dll's in program folder.
-	env.Append(CPPDEFINES 			= ['ALLEGRO_NO_FIX_ALIASES', 'ALLEGRO_LEGACY_NO_FIX_ALIASES'])
-	env.Append(CPPFLAGS 			= ['WINDOWS', '-pipe', '-Wall', '-Wno-reorder']) #, '-Werror', '-static-libstdc++']
+	env.Append(LIBS 				= ['fmodex', 'stdc++', 'lua51', 'zoidcom_vc', 'png', 'z', 'boost_filesystem-mt', 'allegro-4.4.2-md', 'ws2_32'])
+	env.Append(LIBPATH 				= ['/bin', './lib', '.']) #will find dll's in program folder.
+	env.Append(CPPDEFINES 			= ['WINDOWS', 'ALLEGRO_NO_FIX_ALIASES', 'ALLEGRO_LEGACY_NO_FIX_ALIASES'])
+	env.Append(CPPFLAGS 			= ['-pipe', '-Wall', '-Wno-reorder']) #, '-Werror', '-static-libstdc++']
 	env.Append(CXXFLAGS 			= ['-std=c++23'])
-	env.Append(CPPPATH				= ['./fmodex/api/inc/', './Utility','./zoidcom/include','./lua','./GUI','./Console','./OmfgScript','./http'])
+	env.Append(CPPPATH				= ['/include/allegro', './luajit-2.1/src/', './fmodex/api/inc/', './Utility','./zoidcom/include','./lua','./GUI','./Console','./OmfgScript','./http'])
+#	env.Append(LINKFLAGS  			= ['-Wl,--no-demangle'])
+#	env = Environment(tools = ['mingw'], ENV = {'PATH' : os.environ['PATH']})
+#	
+#	env.Append(LIBS 				= ['stdc++', 'lua51', 'zoidcom_vc', 'fmodex64', 'png', 'z', 'boost_filesystem-mt', 'alleg44'])
+#	env.Append(LIBPATH 				= ['.', './luajit-2.1/src', './zoidcom/lib/msvc8_64/']) #will find dll's in program folder.
+#	env.Append(CPPDEFINES 			= ['WINDOWS', 'ALLEGRO_NO_FIX_ALIASES', 'ALLEGRO_LEGACY_NO_FIX_ALIASES'])
+#	env.Append(CPPFLAGS 			= ['-pipe', '-Wall', '-Wno-reorder']) #, '-Werror', '-static-libstdc++']
+#	env.Append(CXXFLAGS 			= ['-std=c++23'])
+#	env.Append(CPPPATH				= ['./allegro4/include', './luajit-2.1/src', './fmodex/api/inc/', './Utility','./zoidcom/include','./lua','./GUI','./Console','./OmfgScript','./http'])
 else:
 	#will probably use gcc here
 	env = Environment()
@@ -56,7 +65,7 @@ def find_files_gusanos(directory, pattern):
 	sourcePattern = re.compile(pattern)
 	srcs = []
 	for root, dirs, files in os.walk(directory):
-		exclude = set(['misc', 'zoidcom', 'fmodapi44464linux', 'fmodapi444linux', 'fmodex'])
+		exclude = set(['misc', 'zoidcom', 'fmodapi44464linux', 'fmodapi444linux', 'fmodex', 'luajit-2.1'])
 		dirs[:] = [d for d in dirs if d not in exclude]
 		for basename in files:
 			if sourcePattern.search(basename):
@@ -72,5 +81,12 @@ def find_files_gusanos(directory, pattern):
 #conf.CheckLibWithHeader('png', 'png.h', 'C++')
 #conf.CheckLibWithHeader('z', 'zlib.h', 'C++')
 #env = conf.Finish()
+
+# Weigh the impact carefully before adding other variables to this list.
+import_env = [ 'TEMP', 'TMP' ]
+for var in import_env:
+    v = os.environ.get(var)
+    if v:
+        env['ENV'][var] = v
 
 env.Program(progname, find_files_gusanos(".", '.*?\.(cpp|c)$'))

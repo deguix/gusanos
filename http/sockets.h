@@ -3,13 +3,16 @@
 
 #if defined(WINDOWS)
 #define NOGDI
+#define WIN32_LEAN_AND_MEAN
+#include <allegro.h>
 #include <winsock2.h>
+#include <winalleg.h>
 #include <cstdlib>
 typedef int socklen_t;
 
 inline int sockError() { return WSAGetLastError(); }
-const int EINPROGRESS = WSAEINPROGRESS;
-const int EWOULDBLOCK = WSAEWOULDBLOCK;
+//const int EINPROGRESS = WSAEINPROGRESS;
+//const int EWOULDBLOCK = WSAEWOULDBLOCK;
 
 #else //if !defined(OSK)
 #include <sys/types.h>

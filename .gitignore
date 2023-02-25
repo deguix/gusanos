@@ -5,7 +5,7 @@ gusanos.exe
 # C++
 *.o
 *.a
-*.obj
+# *.obj #removed because this makes it ignore .obj files from objects folder from mod folders
 *.lib
 
 # VIM

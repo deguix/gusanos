@@ -648,9 +648,9 @@ int GConsole::executeConfig(const std::string& filename)
 {
 	fs::path p(game.getModPath() / filename);
 	if ( fs::exists(p) )
-		return Console::executeConfig(p.native());
+		return Console::executeConfig(p.string());
 	else
-		return Console::executeConfig((game.getDefaultPath() / filename).native());
+		return Console::executeConfig((game.getDefaultPath() / filename).string());
 }
 
 void GConsole::addQueueCommand( std::string const & command )

@@ -315,7 +315,7 @@ bool PartType::load(fs::path const& filename)
 	if (!fileStream )
 		return false;
 	
-	OmfgScript::Parser parser(fileStream, gameActions, filename.native());
+	OmfgScript::Parser parser(fileStream, gameActions, filename.string());
 	
 	namespace af = OmfgScript::ActionParamFlags;
 		

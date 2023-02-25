@@ -14,7 +14,13 @@ namespace fs = boost::filesystem;
 #include <allegro.h>
 //#include "text.h"
 
+#ifdef __MINGW32__ //Fixes issue on using proper calling convention on FMODEx while using mingw (for some reason)
+	#define __CYGWIN32__
+#endif
 #include <fmod.hpp>
+#ifdef __MINGW32__
+	#undef __CYGWIN32__
+#endif
 
 #define FMOD_ERROR_CHECK \
 	if (sfx.fmod_result != FMOD_OK) { \
@@ -39,11 +45,11 @@ Sound1D::~Sound1D()
 
 bool Sound1D::load(fs::path const& filename)
 {	
-	//cerr << "Loading sound: " << filename.native() << endl;
+	//cerr << "Loading sound: " << filename.string() << endl;
 	
-	sfx.fmod_result = sfx.m_fmod_system->createSound(filename.native().c_str(), FMOD_2D | FMOD_LOWMEM, 0, &m_sound); //FSOUND_FORCEMONO
+	sfx.fmod_result = sfx.m_fmod_system->createSound(filename.string().c_str(), FMOD_2D | FMOD_LOWMEM, 0, &m_sound); //FSOUND_FORCEMONO
 	if (sfx.fmod_result != FMOD_OK) {
-		cerr << "* FMOD ERROR File not found or error while loading: " << filename.native().c_str() << endl;
+		cerr << "* FMOD ERROR File not found or error while loading: " << filename.string() << endl;
 		return false;
 	}
 	if ( m_sound )
